@@ -38,6 +38,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('incomes', [IncomeController::class, 'viewPageIncomes'])->name("incomes");
     Route::get('goals', [GoalsController::class, 'viewPageGoals'])->name("goals");
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::post('/expenses', [ExpenseController::class, 'store'])->name('store.expense');
+
+
 });
 
 

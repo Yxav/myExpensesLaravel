@@ -28,6 +28,17 @@
     margin-top: 100px;
 }
 
+#drop-area {
+    border: 2px dashed rgb(149, 148, 148);
+    border-radius: 10px;
+    width: 480px;
+    font-family: sans-serif;
+  }
+  #drop-area.highlight {
+    border-color: purple;
+  }
+
+
 @media only screen and (min-width: 992px)  {
     .sidenav{
         width: 300px;

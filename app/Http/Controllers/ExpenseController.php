@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expense;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 
 class ExpenseController extends Controller
 {
@@ -13,7 +15,7 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        //
+        return Expense::paginate(5);
     }
 
     /**
@@ -34,7 +36,27 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $expense = new Expense;
+        if ($request->hasFile('file')) {
+
+            $request->validate([
+                'image' => 'mimes:jpeg,bmp,png'
+            ]);
+
+            $request->file->store('expenses', 'public');
+            $expense->file_path = $request->file->hashName();
+        }
+        $expense->short_name = $request->short_name;
+        $expense->amount = $request->amount;
+        $expense->description = $request->description;
+
+        $expense->date_operation = Date::now();
+        $expense->user_id = $request->user()->id;
+        $expense->save();
+        return response()->json([
+            "message" => "Expense created",
+            "id" => $expense->id
+        ], 200);
     }
 
     /**
@@ -45,7 +67,7 @@ class ExpenseController extends Controller
      */
     public function show($id)
     {
-        //
+        return Expense::where('id', $id)->get()->toJson(JSON_PRETTY_PRINT);
     }
 
     /**
