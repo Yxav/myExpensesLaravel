@@ -1,4 +1,7 @@
 @extends('layout')
+@section('sidebar')
+    @include('partials.sidebar')
+@endsection
 
 @section('content')
 <div class="row  main_cards">
@@ -12,7 +15,7 @@
               </div>
             </div>
             <div class="right-align">
-                <a class="waves-effect waves-light blue btn"><i class="material-icons left">add</i>Adicionar novo</a>
+                <a data-target="modalCreate" class="waves-effect waves-light blue btn modal-trigger"><i class="material-icons left">add</i>Adicionar novo</a>
             </div>
             <ul class="collection">
 
@@ -38,6 +41,30 @@
             </ul>
 
         </div>
+
+        <div id="modalCreate" class="modal">
+            <div class="modal-content">
+              <h4 id="nameModal">Proventos</h4>
+              <div class="row">
+                  <div class="input-field col s6">
+                    <input value="" id="name" type="text" class="validate">
+                    <label class="active" for="name">Nome</label>
+                  </div>
+                  <div class="input-field col s6">
+                      <input value="" id="date_operation" type="text" class="validate">
+                      <label class="active" for="date_operation">Data</label>
+                    </div>
+                    <div class="input-field col s12">
+                      <input value="" id="amount" type="text" class="validate">
+                      <label class="active" for="amount">Valor</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="modal-close waves-effect blue darken-1 btn">Fechar</a>
+            </div>
+          </div>
+
 
         <div id="modalUpdate" class="modal">
             <div class="modal-content">

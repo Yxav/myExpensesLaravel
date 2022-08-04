@@ -1,5 +1,9 @@
 @extends('layout')
 
+@section('sidebar')
+    @include('partials.sidebar')
+@endsection
+
 @section('content')
 <div class="row main_cards">
                 <div class="col s10 m6 l6 ">
