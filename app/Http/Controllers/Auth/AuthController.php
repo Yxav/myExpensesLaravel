@@ -29,7 +29,7 @@ class AuthController extends Controller
      * @return response()
      */
     public function registration(){
-        return view('auth.registration');
+        return view('register');
     }
 
     /**
@@ -67,80 +67,18 @@ class AuthController extends Controller
 
         $data = $request->all();
         $this->create($data);
-        return redirect("dashboard")->withSuccess('Great! You have Successfully loggedin');
+        $this->postLogin($request);
     }
 
     /**
      * Write code on Method
      *
      * @return response()
-     */
-
-    public function dashboard()
-
-    {
-        if(Auth::check()){
-
-            return view('dashboard');
-
-        }
-
-
-
-        return redirect("login")->withSuccess('Opps! You do not have access');
-
-    }
-
-
-
-    /**
-
-     * Write code on Method
-
-     *
-
-     * @return response()
-
-     */
-
-    public function create(array $data)
-
-    {
-
-      return User::create([
-
-        'name' => $data['name'],
-
-        'email' => $data['email'],
-
-        'password' => FacadesHash::make($data['password'])
-
-      ]);
-
-    }
-
-
-
-    /**
-
-     * Write code on Method
-
-     *
-
-     * @return response()
-
-     */
+    */
 
     public function logout() {
-
         FacadesSession::flush();
-
         Auth::logout();
-
-
-
         return Redirect('login');
-
     }
-
 }
