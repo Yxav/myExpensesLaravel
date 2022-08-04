@@ -68,6 +68,14 @@
                         <input value="" id="amount" type="text" class="validate">
                         <label class="active" for="amount">Valor</label>
                     </div>
+                    <div class="input-field col s12">
+                        <input value="" id="end_balance" type="text" class="validate">
+                        <label class="active" for="end_balance">Descrição</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input value="" id="invoice" type="file" class="validate">
+                        <label class="active" for="invoice">Recibo</label>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -90,6 +98,14 @@
                     <div class="input-field col s12">
                       <input value="" id="end_balance" type="text" class="validate">
                       <label class="active" for="end_balance">Valor</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input value="" id="end_balance" type="text" class="validate">
+                        <label class="active" for="end_balance">Descrição</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input value="" id="end_balance" type="file" class="validate">
+                        <label class="active" for="end_balance">Descrição</label>
                     </div>
                 </div>
             </div>
