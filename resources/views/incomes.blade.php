@@ -11,7 +11,11 @@
                 </div>
               </div>
             </div>
+            <div class="right-align">
+                <a class="waves-effect waves-light blue btn"><i class="material-icons left">add</i>Adicionar novo</a>
+            </div>
             <ul class="collection">
+
                 <li class="collection-item avatar">
                     <a href=""><i class="material-icons green circle">savings</i></a>
                     <span class="title">Proventos </span>
@@ -32,6 +36,7 @@
                     <a href="#!" data-target="modalDelete" class="secondary-content delete_icon red-text modal-trigger"><i class="material-icons">delete</i></a>
                 </li>
             </ul>
+
         </div>
 
         <div id="modalUpdate" class="modal">
