@@ -1,5 +1,15 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\GoalsController;
+
+
+
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +23,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('/post-login', [AuthController::class, 'postLogin'])->name('login.post');
+
+
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', [DashboardController::class, 'viewPageDash'])->name("dashboard");
+    Route::get('expenses', [ExpenseController::class, 'viewPageExpenses'])->name("expenses");
+    Route::get('incomes', [IncomeController::class, 'viewPageIncomes'])->name("incomes");
+    Route::get('goals', [GoalsController::class, 'viewPageGoals'])->name("goals");
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });
+
+

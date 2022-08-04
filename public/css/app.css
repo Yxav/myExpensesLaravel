@@ -1,0 +1,42 @@
+
+.brand-logo {
+    padding-left: 15px !important;
+}
+
+.sidenav{
+    top: auto;
+    width: 250px;
+}
+
+.main_cards {
+    padding: 20px;
+}
+
+.delete_icon{
+    right: 60px !important;
+}
+
+.actual_balance_font{
+    font-size: 45px;
+}
+
+.actual_balance_font_bold{
+    font-weight: 700 !important;
+}
+
+@media only screen and (min-width: 992px)  {
+    .sidenav{
+        width: 300px;
+    }
+    .main_cards {
+        margin-top: 15px;
+        padding: 0;
+    }
+}
+
+
+@media only screen and (min-width: 1400px)  {
+  .sidebar_container{
+    width: 20% !important;
+  }
+}
