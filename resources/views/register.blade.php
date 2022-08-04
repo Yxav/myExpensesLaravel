@@ -48,6 +48,7 @@
                         Registrar
                     </button>
                 </div>
+                <a href="{{ route('login') }}">Já é registrado? Logue no sistema</a>
                 <span class="helper-text" id="errorBox" data-error="wrong" data-success="right"></span>
               </div>
             </form>
