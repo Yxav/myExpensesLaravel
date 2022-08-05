@@ -31,7 +31,8 @@
                         Login
                     </button>
                 </div>
-              </div>
+            <a href="{{ route('resetPassword') }}">Esqueceu sua senha?</a>
+            </div>
             </form>
           </div>
     </body>

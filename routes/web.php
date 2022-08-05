@@ -30,6 +30,10 @@ Route::post('/post-login', [AuthController::class, 'postLogin'])->name('login.po
 Route::get('/register', [AuthController::class, 'registration'])->name('register');
 Route::post('/post-register', [AuthController::class, 'postRegistration'])->name('register.post');
 
+Route::get('/reset-password', [AuthController::class, 'showForgetPassword'])->name('resetPassword');
+Route::post('/reset-password-submit', [AuthController::class, 'submitRequestPasswordChange'])->name('resetPasswordSubmit');
+
+
 
 
 Route::group(['middleware' => 'auth'], function () {
