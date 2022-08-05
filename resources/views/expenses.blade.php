@@ -111,7 +111,6 @@
             method: 'get',
             success: function(result){
                 let data = JSON.parse(result)[0]
-                console.log(data)
                 $("#short_name").val(data.short_name);
                 $("#date_operation").val(data.date_operation);
                 $("#amount").val(data.amount);

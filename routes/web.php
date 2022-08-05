@@ -54,6 +54,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/incomes/{id}', [IncomeController::class, 'show'])->name('incomes.show');
     Route::get('/incomes/delete/{id}', [IncomeController::class, 'destroy'])->name('incomes.destroy');
 
+    Route::post('/goals', [GoalsController::class, 'store'])->name('store.goals');
+    Route::post('/goals/update', [GoalsController::class, 'update'])->name('update.goals');
+    Route::get('/goals/{id}', [GoalsController::class, 'show'])->name('goals.show');
+    Route::get('/json/goals', [GoalsController::class, 'indexJson'])->name('goals.json');
+    Route::get('/goals/delete/{id}', [GoalsController::class, 'destroy'])->name('goals.destroy');
+
 
 
 

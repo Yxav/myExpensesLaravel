@@ -17,6 +17,16 @@ class GoalsController extends Controller
         return Goal::where('user_id', auth()->user()->id)->get();
     }
 
+        /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexJson()
+    {
+        return Goal::where('user_id', auth()->user()->id)->get()->toJson();
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -24,7 +34,8 @@ class GoalsController extends Controller
      */
     public function viewPageGoals()
     {
-        return view('goals');
+        $goals = $this->index();
+        return view('goals', compact('goals'));
     }
 
     /**
@@ -78,7 +89,7 @@ class GoalsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $id = $request->id;
         if(Goal::where('id', $id)->exists()){
