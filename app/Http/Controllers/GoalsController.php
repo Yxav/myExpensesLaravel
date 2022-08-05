@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Goal;
 use Illuminate\Http\Request;
 
 class GoalsController extends Controller
@@ -13,7 +14,7 @@ class GoalsController extends Controller
      */
     public function index()
     {
-        //
+        return Goal::where('user_id', auth()->user()->id)->get();
     }
 
     /**
@@ -34,7 +35,17 @@ class GoalsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $goal = new Goal();
+        $goal->short_name = $request->short_name;
+        $goal->amount = $request->amount;
+        $goal->actual_balance = request()->actual_balance;
+        $goal->date_operation = request()->date_operation;
+        $goal->user_id = $request->user()->id;
+        $goal->save();
+        return response()->json([
+            "message" => "goal created",
+            "id" => $goal->id
+        ], 200);
     }
 
     /**
@@ -45,7 +56,8 @@ class GoalsController extends Controller
      */
     public function show($id)
     {
-        //
+        return Goal::where('id', $id)->get()->toJson();
+
     }
 
     /**
@@ -68,7 +80,23 @@ class GoalsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $id = $request->id;
+        if(Goal::where('id', $id)->exists()){
+            $goal = Goal::find($id);
+            $goal->short_name = is_null($request->short_name) ? $goal->short_name : $request->short_name;
+            $goal->amount = is_null($request->amount) ? $goal->amount : $request->amount;
+            $goal->actual_balance = is_null($request->actual_balance) ? $goal->actual_balance : $request->actual_balance;
+            $goal->date_operation = is_null($request->date_operation) ? $goal->date_operation : $request->date_operation;
+            $goal->save();
+
+            return response()->json([
+                "message" => "records updated successfully"
+            ], 200);
+            } else {
+            return response()->json([
+                "message" => "goal not found"
+            ], 404);
+        }
     }
 
     /**
@@ -79,6 +107,6 @@ class GoalsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Goal::destroy($id);
     }
 }
