@@ -23,7 +23,12 @@ class DashboardController extends Controller
      */
     public function viewPageDash()
     {
-        return view('index');
+        $totalIncomes = IncomeController::calculateTotalIncomes();
+        $totalExpenses = ExpenseController::calculateTotalExpenses();
+        $totalBalance = $totalIncomes - $totalExpenses;
+
+
+        return view('index', compact('totalIncomes', 'totalExpenses', 'totalBalance'));
     }
 
     /**

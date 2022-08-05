@@ -61,7 +61,7 @@
           </div>
       </div>
       <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect blue darken-1 btn">Fechar</a>
+        <a href="javascript:void(0)" class="modal-close waves-effect blue darken-1 btn">Fechar</a>
       </div>
     </div>
 
@@ -88,7 +88,7 @@
             </div>
         </div>
         <div class="modal-footer">
-          <a href="#!" class="modal-close waves-effect blue darken-1 btn">Fechar</a>
+          <a href="javascript:void(0)" class="modal-close waves-effect blue darken-1 btn">Fechar</a>
         </div>
       </div>
 
@@ -98,8 +98,8 @@
 
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect red darken-1 btn">Sim, deletar</a>
-            <a href="#!" class="modal-close waves-effect blue darken-1 btn">Fechar</a>
+            <a href="javascript:void(0)" class="modal-close waves-effect red darken-1 btn">Sim, deletar</a>
+            <a href="javascript:void(0)" class="modal-close waves-effect blue darken-1 btn">Fechar</a>
         </div>
     <script>
         let goalsTab = document.getElementById("goals")
@@ -119,7 +119,7 @@
         const myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto'],
+                labels: ['Atual', 'Esperado'],
                 datasets: [{
                     label: 'Valor Atual',
                     data: [120.99, 659.99, 800, 5.99, 2999, 3.99, 5220],
@@ -128,17 +128,6 @@
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
-                    ],
-                    borderWidth: 1
-                },
-                {
-                    label: 'Valor Desejado',
-                    data: [5000, 5000, 5000, 5000,5000,5000],
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)',
                     ],
                     borderWidth: 1
                 }]
@@ -166,11 +155,12 @@
                 }
             }
     });
+
     const ctx2 = document.getElementById('myChart2').getContext('2d');
         const myChart2 = new Chart(ctx2, {
             type: 'bar',
             data: {
-                labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto'],
+                labels: ['Atual', 'Esperado'],
                 datasets: [{
                     label: 'Valor Atual',
                     data: [120.99, 659.99, 800, 5.99, 2999, 3.99, 5220],
@@ -179,17 +169,6 @@
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
-                    ],
-                    borderWidth: 1
-                },
-                {
-                    label: 'Valor Desejado',
-                    data: [5000, 5000, 5000, 5000,5000,5000],
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)',
                     ],
                     borderWidth: 1
                 }]
@@ -217,6 +196,7 @@
                 }
             }
     });
+
 
         </script>
 

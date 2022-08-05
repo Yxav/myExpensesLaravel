@@ -18,7 +18,7 @@
     <div class="navbar-fixed ">
         <nav>
             <div class="nav-wrapper blue darken-2 ">
-                <a href="#!" class="brand-logo ">My Expenses</a>
+                <a href="#/" class="brand-logo ">My Expenses</a>
                 <ul class="right hide-on-med-and-down">
                     @auth
                         <li><a href="#">Hello, {{ auth()->user()->name }}</a></li>

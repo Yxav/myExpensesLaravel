@@ -53,7 +53,11 @@
                   },
                   success: function(result){
                     window.location.href = "/"
-                }});
+                },
+                error: function(error){
+                    M.toast({html: 'Falha no login, verifique suas credenciais!', classes: 'red'});
+                }
+                });
                });
             });
     </script>

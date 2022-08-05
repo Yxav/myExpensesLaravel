@@ -16,7 +16,7 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        return Expense::all();
+        return Expense::where('user_id', auth()->user()->id)->get();
     }
 
     /**
@@ -26,7 +26,6 @@ class ExpenseController extends Controller
      */
     public function calculateTotalExpenses()
     {
-
         return Expense::where('user_id', auth()->user()->id)
                     ->where('date_operation', '>', Carbon::now()->subDays(30))
                     ->sum('amount');

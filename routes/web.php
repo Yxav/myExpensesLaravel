@@ -43,9 +43,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::post('/expenses', [ExpenseController::class, 'store'])->name('store.expense');
+    Route::get('/ha/expenses/month', [ExpenseController::class, 'index'])->name('index.expense');
+
     Route::post('/expenses/update', [ExpenseController::class, 'update'])->name('update.expense');
     Route::get('/expenses/{id}', [ExpenseController::class, 'show'])->name('expenses.show');
     Route::get('/expenses/delete/{id}', [ExpenseController::class, 'destroy'])->name('expenses.destroy');
+
+    Route::post('/incomes', [IncomeController::class, 'store'])->name('store.incomes');
+    Route::post('/incomes/update', [IncomeController::class, 'update'])->name('update.income');
+    Route::get('/incomes/{id}', [IncomeController::class, 'show'])->name('incomes.show');
+    Route::get('/incomes/delete/{id}', [IncomeController::class, 'destroy'])->name('incomes.destroy');
+
+
 
 
 
