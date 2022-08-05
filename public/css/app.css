@@ -32,14 +32,25 @@
     margin-top: 100px;
 }
 
+.container {
+    padding: 10px;
+    border: 1px solid #aaa9a9;
+    background: #d9d9d9;
+    border-radius: 5px;
+    margin-top: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row-reverse;
+}
 #drop-area {
-    border: 2px dashed rgb(149, 148, 148);
-    border-radius: 10px;
-    width: 480px;
-    font-family: sans-serif;
+    /* border: 2px dashed rgb(149, 148, 148); */
+    /* border-radius: 10px; */
+    /* width: 480px; */
+    /* font-family: sans-serif; */
   }
   #drop-area.highlight {
-    border-color: purple;
+    /* border-color: purple; */
   }
 
 
