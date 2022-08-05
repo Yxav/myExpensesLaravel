@@ -86,14 +86,15 @@ class ExpenseController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the invoice file.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function displayInvoice($filepath)
     {
-        //
+        $path = storage_path('app/public/expenses'.$filepath);
+        return;
     }
 
     /**

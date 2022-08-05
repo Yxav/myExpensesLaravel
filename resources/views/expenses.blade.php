@@ -23,9 +23,16 @@
                     <li class="collection-item avatar">
                         <a href=""><i class="material-icons red circle">money_off</i></a>
                         <span class="title">{{ $expense->short_name }}</span>
-                        <p>R$ {{ number_format($expense->amount, 2, ',', '.')  }} <br>
-                            {{ $expense->date_operation }}
+                        <p>
+                        <span class="red-text"> R$ {{ number_format($expense->amount, 2, ',', '.')  }}</span> <br>
+                            {{ \Carbon\Carbon::parse($expense->date_operation)->format('d/m/Y')}}
+
                         </p>
+                        @if($expense->file_path)
+                            <img id="invoice{{ $expense->id }}" style="display: none;" src="{{ Storage::url('expenses/' .$expense->file_path) }}" alt="" title=""></a>
+                        @endif
+
+                        <a href="javascript:void(0)" data-id="{{ $expense->id }}" class="secondary-content viewIcon"><i class="material-icons">visibility</i></a>
                         <a href="javascript:void(0)" data-id="{{ $expense->id }}" data-target="modalCreate" class="secondary-content editIcon modal-trigger"><i class="material-icons">edit</i></a>
                         <a href="javascript:void(0)" data-id= "{{ $expense->id }}" class="secondary-content delete_icon red-text"><i class="material-icons">delete</i></a>
                     </li>
@@ -71,8 +78,20 @@
                 <a href="javascript:void(0)" class="modal-close waves-effect red darken-1 btn">Fechar</a>
                 <a href="javascript:void(0)" id="addButton" class="waves-effect blue darken-1 btn">Salvar</a>
             </div>
+        </div>
+
+        <div id="modalInvoice" class="modal">
+            <div class="modal-content">
+                <div class="row">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0)" class="modal-close waves-effect red darken-1 btn">Fechar</a>
+                <a href="javascript:void(0)" id="addButton" class="waves-effect blue darken-1 btn">Salvar</a>
             </div>
         </div>
+    </div>
 
 
 <script>
@@ -118,6 +137,26 @@
                 $("#id").val(data.id);
             }
         });
+      })
+
+
+      let clicked = false;
+      $(".viewIcon").click(function(e){
+        let id = "invoice" + $(this).attr("data-id");
+        let invoice = document.getElementById(id);
+
+        if(!invoice){
+            M.toast({html: 'Esta despesa não possui comprovante!', classes: 'red'});
+            return
+        }
+        if(clicked){
+            invoice.style.display = "none "
+            clicked = false
+        } else {
+            invoice.style.display = "flex"
+            clicked = true;
+
+        }
       })
 
     $(".delete_icon").click(function(e){

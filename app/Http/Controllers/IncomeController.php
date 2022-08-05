@@ -102,7 +102,7 @@ class IncomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $id = $request->id;
         if(Income::where('id', $id)->exists()){
@@ -110,6 +110,15 @@ class IncomeController extends Controller
             $income->short_name = is_null($request->short_name) ? $income->short_name : $request->short_name;
             $income->amount = is_null($request->amount) ? $income->amount : $request->amount;
             $income->description = is_null($request->description) ? $income->description : $request->description;
+            if ($request->hasFile('file')) {
+
+                $request->validate([
+                    'image' => 'mimes:jpeg,bmp,png'
+                ]);
+
+                $request->file->store('incomes', 'public');
+                $income->file_path = $request->file->hashName();
+            }
             $income->save();
 
             return response()->json([

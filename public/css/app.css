@@ -16,6 +16,10 @@
     right: 60px !important;
 }
 
+.viewIcon{
+    right: 105px !important;
+}
+
 .actual_balance_font{
     font-size: 45px;
 }

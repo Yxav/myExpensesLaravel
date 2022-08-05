@@ -207,11 +207,9 @@
                                         data: [goal.actual_balance],
                                         backgroundColor: [
                                             'rgba(60,179,113, 0.5)',
-                                            // 'rgba(3, 120, 255, 0.8)'
                                         ],
                                         borderColor: [
                                             'rgba(60,179,113, 0.5)',
-                                            // 'rgba(3, 120, 255, 0.8)'
 
                                         ],
                                         borderWidth: 1
@@ -220,17 +218,14 @@
                                         label: 'Valor Esperado',
                                         data: [goal.amount],
                                         backgroundColor: [
-                                            // 'rgba(60,179,113, 0.5)',
                                             'rgba(3, 120, 255, 0.8)'
                                         ],
                                         borderColor: [
-                                            // 'rgba(60,179,113, 0.5)',
                                             'rgba(3, 120, 255, 0.8)'
 
                                         ],
                                         borderWidth: 1
                                     }
-
                                 ]
                                 },
                                 options: {

@@ -24,8 +24,13 @@
                     <span class="title">{{ $income->short_name }} </span>
                     <p>
                         <span class="green-text"> R$ {{ number_format($income->amount, 2, ',', '.')  }} </span> <br>
-                        {{ $income->date_operation }}
+                        {{ \Carbon\Carbon::parse($income->date_operation)->format('d/m/Y')}}
                     </p>
+                    @if($income->file_path)
+                            <img id="invoice{{ $income->id }}" style="display: none;" src="{{ Storage::url('incomes/' .$income->file_path) }}" alt="" title=""></a>
+                        @endif
+
+                    <a href="javascript:void(0)" data-id="{{ $income->id }}" class="secondary-content viewIcon"><i class="material-icons">visibility</i></a>
                     <a href="javascript:void(0)" data-id="{{ $income->id }}" data-target="modalCreate" class="secondary-content editIcon modal-trigger"><i class="material-icons">edit</i></a>
                     <a href="javascript:void(0)" data-id= "{{ $income->id }}" class="secondary-content delete_icon red-text"><i class="material-icons">delete</i></a>
                 </li>
@@ -124,9 +129,28 @@
             });
         })
 
+        let clicked = false;
+        $(".viewIcon").click(function(e){
+            let id = "invoice" + $(this).attr("data-id");
+            let invoice = document.getElementById(id);
+
+            if(!invoice){
+                M.toast({html: 'Esta despesa não possui comprovante!', classes: 'red'});
+                return
+            }
+            if(clicked){
+                invoice.style.display = "none "
+                clicked = false
+            } else {
+                invoice.style.display = "flex"
+                clicked = true;
+
+            }
+        })
+
         $(".editIcon").click(function(e){
             let id = $(this).attr("data-id");
-            let url = '{{ route("expenses.show", ":id") }}';
+            let url = '{{ route("incomes.show", ":id") }}';
             url = url.replace(':id', id);
 
             $.ajaxSetup({
@@ -139,7 +163,6 @@
                 method: 'get',
                 success: function(result){
                     let data = JSON.parse(result)[0]
-                    console.log(data)
                     $("#short_name").val(data.short_name);
                     $("#date_operation").val(data.date_operation);
                     $("#amount").val(data.amount);

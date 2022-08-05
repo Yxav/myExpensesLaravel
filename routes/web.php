@@ -48,6 +48,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/expenses/update', [ExpenseController::class, 'update'])->name('update.expense');
     Route::get('/expenses/{id}', [ExpenseController::class, 'show'])->name('expenses.show');
     Route::get('/expenses/delete/{id}', [ExpenseController::class, 'destroy'])->name('expenses.destroy');
+    Route::get('/invoice/expenses/{filepath}', [ExpenseController::class, 'displayInvoice'])->name('expenses.displayInvoice');
+
+
 
     Route::post('/incomes', [IncomeController::class, 'store'])->name('store.incomes');
     Route::post('/incomes/update', [IncomeController::class, 'update'])->name('update.income');
