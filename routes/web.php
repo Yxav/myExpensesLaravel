@@ -35,11 +35,19 @@ Route::post('/post-register', [AuthController::class, 'postRegistration'])->name
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [DashboardController::class, 'viewPageDash'])->name("dashboard");
     Route::get('expenses', [ExpenseController::class, 'viewPageExpenses'])->name("expenses");
+    Route::get('expenses/all', [ExpenseController::class, 'index'])->name("allExpenses");
+
+
     Route::get('incomes', [IncomeController::class, 'viewPageIncomes'])->name("incomes");
     Route::get('goals', [GoalsController::class, 'viewPageGoals'])->name("goals");
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::post('/expenses', [ExpenseController::class, 'store'])->name('store.expense');
+    Route::post('/expenses/update', [ExpenseController::class, 'update'])->name('update.expense');
+    Route::get('/expenses/{id}', [ExpenseController::class, 'show'])->name('expenses.show');
+    Route::get('/expenses/delete/{id}', [ExpenseController::class, 'destroy'])->name('expenses.destroy');
+
+
 
 
 });
