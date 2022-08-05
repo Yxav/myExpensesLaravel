@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expense;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 
@@ -15,8 +16,22 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        return Expense::paginate(5);
+        return Expense::all();
     }
+
+    /**
+     * Calculate total expenses from month;
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function calculateTotalExpenses()
+    {
+
+        return Expense::where('user_id', auth()->user()->id)
+                    ->where('date_operation', '>', Carbon::now()->subDays(30))
+                    ->sum('amount');
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -25,7 +40,9 @@ class ExpenseController extends Controller
      */
     public function viewPageExpenses()
     {
-        return view('expenses');
+        $expenses = $this->index();
+        $total = $this->calculateTotalExpenses();
+        return view('expenses', compact('expenses', 'total'));
     }
 
     /**
@@ -49,8 +66,7 @@ class ExpenseController extends Controller
         $expense->short_name = $request->short_name;
         $expense->amount = $request->amount;
         $expense->description = $request->description;
-
-        $expense->date_operation = Date::now();
+        $expense->date_operation = request()->date_operation;
         $expense->user_id = $request->user()->id;
         $expense->save();
         return response()->json([
@@ -67,7 +83,7 @@ class ExpenseController extends Controller
      */
     public function show($id)
     {
-        return Expense::where('id', $id)->get()->toJson(JSON_PRETTY_PRINT);
+        return Expense::where('id', $id)->get()->toJson();
     }
 
     /**
@@ -88,9 +104,24 @@ class ExpenseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $id = $request->id;
+        if(Expense::where('id', $id)->exists()){
+            $expense = Expense::find($id);
+            $expense->short_name = is_null($request->short_name) ? $expense->short_name : $request->short_name;
+            $expense->amount = is_null($request->amount) ? $expense->amount : $request->amount;
+            $expense->description = is_null($request->description) ? $expense->description : $request->description;
+            $expense->save();
+
+            return response()->json([
+                "message" => "records updated successfully"
+            ], 200);
+            } else {
+            return response()->json([
+                "message" => "Expense not found"
+            ], 404);
+        }
     }
 
     /**
@@ -101,6 +132,6 @@ class ExpenseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Expense::destroy($id);
     }
 }
