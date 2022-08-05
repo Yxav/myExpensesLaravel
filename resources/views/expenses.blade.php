@@ -65,7 +65,7 @@
                         <div class="input-field col s12">
                             <div class="container">
                                 <div id="drag_and_drop">
-                                Drag and Drop Files Here
+                                Arraste seu arquivo aqui
                                 </div>
                                 <input type="file" name="invoice" id="invoice">
                             </div>
