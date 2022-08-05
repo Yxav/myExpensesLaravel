@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dashboard;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -13,7 +15,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //
+        return Dashboard::where('user_id', auth()->user()->id)
+                        ->where('created_at', '<', Carbon::now()->subDays(30))->get();
     }
 
     /**
@@ -30,6 +33,8 @@ class DashboardController extends Controller
 
         return view('index', compact('totalIncomes', 'totalExpenses', 'totalBalance'));
     }
+
+
 
     /**
      * Store a newly created resource in storage.
