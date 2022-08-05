@@ -15,7 +15,7 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        return Income::all();
+        return Income::where('user_id', auth()->user()->id)->get();
     }
 
     /**
