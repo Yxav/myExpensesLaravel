@@ -34,6 +34,10 @@ Route::post('/post-register', [AuthController::class, 'postRegistration'])->name
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [DashboardController::class, 'viewPageDash'])->name("dashboard");
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name("dashboard.json");
+
+
+
     Route::get('expenses', [ExpenseController::class, 'viewPageExpenses'])->name("expenses");
     Route::get('expenses/all', [ExpenseController::class, 'index'])->name("allExpenses");
 
