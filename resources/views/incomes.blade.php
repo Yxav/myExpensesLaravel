@@ -14,11 +14,26 @@
             </div>
             </div>
         </div>
-        <div class="right-align">
+        <div class="controlButtonsTable">
+            <div class="filterDates">
+                <div class="input-field col s6">
+                    <input value="" id="start_date" type="text" class="datepicker">
+                    <label for="start_date">Data Inicial</label>
+                </div>
+                <div class="input-field col s6">
+                    <input value="" id="final_date" type="text" class="datepicker">
+                    <label for="final_date">Data Final</label>
+                </div>
+                <a id="filterButton" class="waves-effect waves-light "><i class="material-icons left">search</i></a>
+                <a id="resetFilterButton" class="waves-effect waves-light "><i class="material-icons left">refresh</i></a>
+
+
+            </div>
+
             <a data-target="modalCreate" id="newButton" class="waves-effect waves-light blue btn modal-trigger"><i class="material-icons left">add</i>Adicionar novo</a>
         </div>
-        <ul class="collection">
-        <table id="table_id" class="display">
+        <ul class="col s10 m6 l12">
+        <table id="dataTable" class="display">
 
         </table>
         </ul>
@@ -64,7 +79,21 @@
             <a href="javascript:void(0)" id="addButton" class="waves-effect blue darken-1 btn">Salvar</a>
         </div>
     </div>
+
+    <div id="modalView" class="modal">
+        <div class="modal-content">
+            <img id="invoicePicture" src="" alt="">
+        </div>
+        <div class="modal-footer">
+            <a href="javascript:void(0)" class="modal-close waves-effect red darken-1 btn">Fechar</a>
+            <a href="javascript:void(0)" id="addButton" class="waves-effect blue darken-1 btn">Salvar</a>
+        </div>
+    </div>
     <script>
+
+        fetchData();
+        var storagePath = "{!! storage_path() !!}";
+
         let incomesTab = document.getElementById("incomes")
         incomesTab.classList.add("active")
         document.addEventListener('DOMContentLoaded', function() {
@@ -72,24 +101,22 @@
             let instances = M.Modal.init(elems, {});
         });
 
-        $(document).ready( function () {
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: "{{ url('json/incomes') }}",
-                method: 'get',
-                dataType: 'json',
-                success: function(result){
-
-                    table = $('#table_id').DataTable({
+        function dataTableGenerate(result){
+            table = $('#dataTable').DataTable({
                         data: result,
+                        paging: true,
+                        bDestroy: true,
                         columns: [
                             {data: 'id'},
                             {data: 'short_name'},
+                            {
+                                data: 'date_operation',
+                                render: function(data, type, row, meta) {
+                                    data = new Date(row.date_operation);
+                                    return data.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+                                }
+
+                            },
                             {data: 'amount'},
                             {
                             data: null,
@@ -99,26 +126,67 @@
                         },
                         {
                             data: null,
-                            className: "dt-center editor-delete",
                             defaultContent: '<a href="javascript:void(0)" data-target="modalCreate" class="secondary-content editIcon modal-trigger"><i class="material-icons">edit</i></a>',
                             orderable: false
+                        },
+                        {
+                            data: null,
+                            defaultContent: '<a href="javascript:void(0)" class="secondary-content delete_icon red-text"><i class="material-icons">delete</i></a>',
+                            orderable: false
+                        },
+                        {
+                            data: null,
+                            defaultContent: '<a href="javascript:void(0)" class="secondary-content viewIcon"><i class="material-icons">visibility</i></a>',
+                            orderable: false
                         }
-
                         ],
-                        dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
-                                    "<'row'<'col-sm-12'tr>>" +
-                                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                        dom: "<'row'<'col s12 m6 l12'l><'col-sm-12 col-md-4'B><'col s12 m6 l12'f>><'row'<'col s12 l12'tr>><'row'<'col s12 m12 l12'i><'col s12 m12 l12 center'p>>",
                         buttons: [
                                     'copy', 'csv', 'excel', 'pdf', 'print'
                                 ],
-
                     });
+        }
 
-                }
-            });
+        function fetchData(start_date, final_date){
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: "{{ url('json/incomes') }}",
+                    method: 'get',
+                    dataType: 'json',
+                    data:{
+                        start_date: start_date,
+                        start_date: final_date,
+                    },
+                    success: function(result){
+                        dataTableGenerate(result)
+                    }
+                });
+        }
 
-        } );
-        $('#table_id').on('click', ".editIcon", function() {
+        $(document).on("click", "#filterButton", function(e){
+            e.preventDefault();
+            let start_date= $("#start_date").val();
+            let final_date= $("#final_date").val();
+            if(start_date == "" || final_date == ""){
+                M.toast({html: 'Preencha os dois campos de data, por favor!', classes: 'red'});
+                return
+            }
+            $('#dataTable').DataTable().destroy();
+            fetchData(start_date, final_date);
+        })
+        $(document).on("click", "#resetFilterButton", function(e){
+            e.preventDefault();
+            let start_date= $("#start_date").val('');
+            let final_date= $("#final_date").val('');
+            $('#dataTable').DataTable().destroy();
+            fetchData();
+        })
+
+        $('#dataTable').on('click', ".editIcon", function() {
             var row = $(this).parents('tr')[0];
             let id = table.row(row).data().id;
             let url = '{{ route("incomes.show", ":id") }}';
@@ -141,6 +209,43 @@
                     $("#id").val(data.id);
                 }
             });
+        });
+
+        $('#dataTable').on('click', ".delete_icon", function() {
+            var row = $(this).parents('tr')[0];
+            let id = table.row(row).data().id;
+            let url = '{{ route("incomes.destroy", ":id") }}';
+            url = url.replace(':id', id);
+
+            $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+            });
+            $.ajax({
+                url: url,
+                method: 'get',
+                success: function(result){
+                    M.toast({html: 'Receita exclúida com sucesso!', classes: 'green'});
+                    fetchData();
+                }
+            });
+        });
+
+        $('#dataTable').on('click', ".viewIcon", function() {
+            var row = $(this).parents('tr')[0];
+            let filePath = table.row(row).data().file_path;
+
+            if(!filePath){
+                M.toast({html: 'Esta receita não possui comprovante!', classes: 'red'});
+                return
+            }
+
+            let modal = document.getElementById("modalView");
+            let instance = M.Modal.getInstance(modal);
+            instance.open();
+
+            $("#invoicePicture").attr("src", "{{ Storage::url('incomes/') }}" + filePath);
         });
 
         $('.modal-trigger').click(function(e){
@@ -203,27 +308,6 @@
             }
         })
 
-        $(".delete_icon").click(function(e){
-            let id = $(this).attr("data-id");
-            let url = '{{ route("incomes.destroy", ":id") }}';
-            url = url.replace(':id', id);
-
-            $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-            });
-            $.ajax({
-                url: url,
-                method: 'get',
-                success: function(result){
-                    alert("Deletado com sucesso")
-                    location.reload()
-                }
-            });
-        })
-
-
         $('#addButton').click(function(e){
             e.preventDefault();
             var fd = new FormData();
@@ -250,7 +334,7 @@
                     contentType: false,
                     processData: false,
                     success: function(result){
-                        location.reload()
+                        fetchData();
                     }});}
             else {
                 $.ajax({
@@ -260,7 +344,7 @@
                     contentType: false,
                     processData: false,
                     success: function(result){
-                        location.reload()
+                        fetchData();
                 }});
             }
          });
