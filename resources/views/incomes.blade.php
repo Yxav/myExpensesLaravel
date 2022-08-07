@@ -18,23 +18,9 @@
             <a data-target="modalCreate" id="newButton" class="waves-effect waves-light blue btn modal-trigger"><i class="material-icons left">add</i>Adicionar novo</a>
         </div>
         <ul class="collection">
-            @foreach ($incomes as $income)
-                <li class="collection-item avatar">
-                    <a href=""><i class="material-icons green circle">savings</i></a>
-                    <span class="title">{{ $income->short_name }} </span>
-                    <p>
-                        <span class="green-text"> R$ {{ number_format($income->amount, 2, ',', '.')  }} </span> <br>
-                        {{ \Carbon\Carbon::parse($income->date_operation)->format('d/m/Y')}}
-                    </p>
-                    @if($income->file_path)
-                            <img id="invoice{{ $income->id }}" style="display: none;" src="{{ Storage::url('incomes/' .$income->file_path) }}" alt="" title=""></a>
-                        @endif
+        <table id="table_id" class="display">
 
-                    <a href="javascript:void(0)" data-id="{{ $income->id }}" class="secondary-content viewIcon"><i class="material-icons">visibility</i></a>
-                    <a href="javascript:void(0)" data-id="{{ $income->id }}" data-target="modalCreate" class="secondary-content editIcon modal-trigger"><i class="material-icons">edit</i></a>
-                    <a href="javascript:void(0)" data-id= "{{ $income->id }}" class="secondary-content delete_icon red-text"><i class="material-icons">delete</i></a>
-                </li>
-            @endforeach
+        </table>
         </ul>
     </div>
 
@@ -86,15 +72,84 @@
             let instances = M.Modal.init(elems, {});
         });
 
-        $('.modal-trigger').click(function(e){
-            let data_target =$(e.target).data('id');
+        $(document).ready( function () {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{ url('json/incomes') }}",
+                method: 'get',
+                dataType: 'json',
+                success: function(result){
+
+                    table = $('#table_id').DataTable({
+                        data: result,
+                        columns: [
+                            {data: 'id'},
+                            {data: 'short_name'},
+                            {data: 'amount'},
+                            {
+                            data: null,
+                            className: "dt-center editor-edit",
+                            defaultContent: '<i class="fa fa-pencil"/>',
+                            orderable: false
+                        },
+                        {
+                            data: null,
+                            className: "dt-center editor-delete",
+                            defaultContent: '<a href="javascript:void(0)" data-target="modalCreate" class="secondary-content editIcon modal-trigger"><i class="material-icons">edit</i></a>',
+                            orderable: false
+                        }
+
+                        ],
+                        dom: "<'row'<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'f>>" +
+                                    "<'row'<'col-sm-12'tr>>" +
+                                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                        buttons: [
+                                    'copy', 'csv', 'excel', 'pdf', 'print'
+                                ],
+
+                    });
+
+                }
+            });
+
+        } );
+        $('#table_id').on('click', ".editIcon", function() {
+            var row = $(this).parents('tr')[0];
+            let id = table.row(row).data().id;
+            let url = '{{ route("incomes.show", ":id") }}';
+            url = url.replace(':id', id);
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: url,
+                method: 'get',
+                success: function(result){
+                    let data = JSON.parse(result)[0]
+                    $("#short_name").val(data.short_name);
+                    $("#date_operation").val(data.date_operation);
+                    $("#amount").val(data.amount);
+                    $("#description").val(data.description);
+                    $("#id").val(data.id);
+                }
+            });
         });
 
-        $(document).ready(function(){
-            $('.datepicker').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-        })
+        $('.modal-trigger').click(function(e){
+            console.log( table.row( this ).data() );
+        });
+
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
 
         $(document).ready(function () {
         $("html").on("dragover", function (e) {
@@ -146,30 +201,6 @@
                 clicked = true;
 
             }
-        })
-
-        $(".editIcon").click(function(e){
-            let id = $(this).attr("data-id");
-            let url = '{{ route("incomes.show", ":id") }}';
-            url = url.replace(':id', id);
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: url,
-                method: 'get',
-                success: function(result){
-                    let data = JSON.parse(result)[0]
-                    $("#short_name").val(data.short_name);
-                    $("#date_operation").val(data.date_operation);
-                    $("#amount").val(data.amount);
-                    $("#description").val(data.description);
-                    $("#id").val(data.id);
-                }
-            });
         })
 
         $(".delete_icon").click(function(e){
