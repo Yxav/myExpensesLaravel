@@ -9,7 +9,7 @@
             <div class="card grey lighten-4">
                 <div class="card-content black-text">
                 <span class="card-title center-align actual_balance_font_bold">Total Receitas (Mês corrente)</span>
-                <p class="green-text center-align actual_balance_font">R$ {{ number_format($total, 2, ',', '.')  }}</p>
+                <p id="totalValue" class="green-text center-align actual_balance_font"></p>
                 </div>
             </div>
             </div>
@@ -163,9 +163,21 @@
                     },
                     success: function(result){
                         dataTableGenerate(result)
-                        console.log(result)
                     }
                 });
+
+                $.ajax({
+                    url: "{{ url('total/incomes') }}",
+                    method: 'get',
+                    dataType: 'json',
+                    success: function(result){
+                        $("p#totalValue").text("R$ " + result.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"))
+
+                    }
+                });
+
+
+
         }
 
         $(document).on("click", "#filterButton", function(e){
