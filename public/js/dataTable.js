@@ -1,5 +1,5 @@
 function dataTable(idTable, result) {
-    $("#" + idTable).DataTable({
+   return $("#" + idTable).DataTable({
         data: result,
         paging: true,
         bDestroy: true,
