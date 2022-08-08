@@ -109,7 +109,6 @@ class AuthController extends Controller
             'email' => $request->email,
             'token' => $token,
             'created_at' => Carbon::now()
-
         ]);
 
         Mail::send('email.reset_pass', ['token' => $token], function ($message) use ($request) {
@@ -117,12 +116,36 @@ class AuthController extends Controller
         });
 
         return response(200);
+    }
 
-
-
+    public function showFormResetPassword(){
+       return view('form_reset_password');
     }
 
 
+    public function changePassword(Request $request){
+        $request->validate([
+            'password' => 'required|min:6'
+        ]);
+
+        $userFound = FacadesDB::table('password_resets')->where([
+                    'token' => $request->token
+                ])->first();
+        if(!$userFound){
+            return response()->json("fail", 500);
+        }
+
+        User::where('email', $userFound->email)->update(['password' => FacadesHash::make($request->password)]);
+        FacadesDB::table('password_resets')->where(['email'=> $userFound->email])->delete();
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('/')
+                    ->withSuccess('You have Successfully loggedin');
+        }
+        return response(200);
+    }
 
     /**
      * Write code on Method
