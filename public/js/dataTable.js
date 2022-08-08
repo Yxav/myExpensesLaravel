@@ -248,9 +248,15 @@ function dataTable(idTable, result) {
             }
         },
         columns: [
-            {data: 'id'},
-            {data: 'short_name'},
             {
+                data: 'id',
+                title: 'Id'
+            },
+            {
+                title: 'Nome',
+                data: 'short_name'},
+            {
+                title: 'Data de operação',
                 data: 'date_operation',
                 render: function(data, type, row, meta) {
                     data = new Date(row.date_operation);
@@ -258,28 +264,27 @@ function dataTable(idTable, result) {
                 }
 
             },
-            {data: 'amount'},
             {
-            data: null,
-            className: "dt-center editor-edit",
-            defaultContent: '<i class="fa fa-pencil"/>',
-            orderable: false
-        },
-        {
-            data: null,
-            defaultContent: '<a href="javascript:void(0)" data-target="modalCreate" class="secondary-content editIcon modal-trigger"><i class="material-icons">edit</i></a>',
-            orderable: false
-        },
-        {
-            data: null,
-            defaultContent: '<a href="javascript:void(0)" class="secondary-content delete_icon red-text"><i class="material-icons">delete</i></a>',
-            orderable: false
-        },
-        {
-            data: null,
-            defaultContent: '<a href="javascript:void(0)" class="secondary-content viewIcon"><i class="material-icons">visibility</i></a>',
-            orderable: false
-        }
+                title: 'Valor',
+                data: 'amount'},
+            {
+                title: 'Editar',
+                data: null,
+                defaultContent: '<a href="javascript:void(0)" data-target="modalCreate" class="editIcon modal-trigger"><i class="material-icons">edit</i></a>',
+                orderable: false
+            },
+            {
+                title: 'Excluir',
+                data: null,
+                defaultContent: '<a href="javascript:void(0)" class="delete_icon red-text"><i class="material-icons">delete</i></a>',
+                orderable: false
+            },
+            {
+                title: 'Recibo',
+                data: null,
+                defaultContent: '<a href="javascript:void(0)" class="viewIcon"><i class="material-icons">visibility</i></a>',
+                orderable: false
+            }
         ],
         dom: "<'row'<'col s12 m6 l12'l><'col-sm-12 col-md-4'B><'col s12 m6 l12'f>><'row'<'col s12 l12'tr>><'row'<'col s12 m12 l12'i><'col s12 m12 l12 center'p>>",
         buttons: [
