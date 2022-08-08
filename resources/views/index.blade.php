@@ -10,7 +10,7 @@
             <div class="card grey lighten-4">
                 <div class="card-content black-text">
                     <span class="card-title center-align actual_balance_font_bold">Total Receitas</span>
-                    <p class="green-text center-align actual_balance_font">R$ {{ number_format($totalIncomes, 2, ',', '.')  }} </p>
+                    <p id="totalIncomes" class="green-text center-align actual_balance_font"></p>
                 </div>
             </div>
         </div>
@@ -18,7 +18,7 @@
             <div class="card grey lighten-4">
                 <div class="card-content black-text">
                     <span class="card-title center-align actual_balance_font_bold">Total despesas</span>
-                    <p class="red-text center-align actual_balance_font">R$ {{ number_format($totalExpenses, 2, ',', '.')  }}</p>
+                    <p id="totalExpenses" class="red-text center-align actual_balance_font"></p>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
             <div class="card grey lighten-4">
                 <div class="card-content black-text">
                     <span class="card-title center-align actual_balance_font_bold">Balanço atual</span>
-                    <p class=" {{ $totalBalance > 0 ? 'green-text' : 'red-text'}} center-align actual_balance_font">R$ {{ number_format($totalBalance, 2, ',', '.')  }}</p>
+                    <p id="totalBalance" class="center-align actual_balance_font"></p>
                 </div>
             </div>
         </div>
@@ -139,6 +139,50 @@
                     }
                 });
             }, 100)
+
+            let incomes =0;
+            let expenses =0;
+
+            $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+            $.ajax({
+                url: "{{ url('total/incomes') }}",
+                method: 'get',
+                dataType: 'json',
+                success: function(result){
+                    incomes = result;
+                    $("p#totalIncomes").text("R$ " + result.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"))
+
+                }
+            });
+            $.ajax({
+            url: "{{ url('total/expenses') }}",
+            method: 'get',
+            dataType: 'json',
+            success: function(result){
+                expenses = result;
+                $("p#totalExpenses").text("R$ " + result.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"))
+            }
+        });
+
+        setTimeout(()=>{
+            total = incomes - expenses;
+
+
+            $("p#totalBalance").text("R$ " + total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"))
+            if(total > 0){
+                $("p#totalBalance").addClass('green-text')
+            } else {
+                $("p#totalBalance").addClass('red-text')
+            }
+        }, 100)
+
+
+
+
 
 
     </script>
