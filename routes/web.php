@@ -47,6 +47,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::get('json/incomes', [IncomeController::class, 'getIncomes'])->name("incomesJson");
+    Route::get('total/incomes', [IncomeController::class, 'calculateTotalIncomes'])->name("totalIncomes");
+
     Route::get('incomes', [IncomeController::class, 'viewPageIncomes'])->name("incomes");
 
     Route::get('goals', [GoalsController::class, 'viewPageGoals'])->name("goals");
