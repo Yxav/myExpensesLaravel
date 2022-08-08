@@ -27,8 +27,6 @@
                 </div>
                 <a id="filterButton" class="waves-effect waves-light "><i class="material-icons left">search</i></a>
                 <a id="resetFilterButton" class="waves-effect waves-light "><i class="material-icons left">refresh</i></a>
-
-
             </div>
 
             <a data-target="modalCreate" id="newButton" class="waves-effect waves-light blue btn modal-trigger"><i class="material-icons left">add</i>Adicionar novo</a>
