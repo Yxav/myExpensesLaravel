@@ -6,7 +6,7 @@
                 <meta name="csrf-token" content="<?php echo csrf_token(); ?>">
 
                 <div class="row center-align ">
-                  <p>Confirme seu email, vamos verificar no nosso sistema e você receberá um token no seu email cadastrado</p>
+                  <p class="textResetPassword">Confirme seu email, vamos verificar no nosso sistema e você receberá um token no seu email cadastrado</p>
                 <div class="col s12">
                   <div class="input-field inline">
                     <input id="email" name="email" type="email" class="validate">
