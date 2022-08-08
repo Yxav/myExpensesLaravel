@@ -220,7 +220,7 @@
             let filePath = table.row(row).data().file_path;
 
             if(!filePath){
-                M.toast({html: 'Esta receita não possui comprovante!', classes: 'red'});
+                M.toast({html: 'Esta despesa não possui comprovante!', classes: 'red'});
                 return
             }
 
