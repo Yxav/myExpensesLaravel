@@ -15,7 +15,7 @@
             </div>
             <span id="emailMessage"></span>
 
-                <div class="col-md-6 offset-md-4">
+                <div class="col-md-6 offset-md-4 buttonReset">
                     <button type="submit" id="resetButton" class="btn btn-primary">
                         Redefinir senha
                     </button>

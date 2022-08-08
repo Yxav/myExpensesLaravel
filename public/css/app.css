@@ -42,7 +42,7 @@
     align-items: center;
 }
 
-.buttonLogin{
+.buttonLogin, .buttonReset{
     margin-bottom: 40px;
 }
 
