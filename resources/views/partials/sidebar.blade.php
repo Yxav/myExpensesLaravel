@@ -5,7 +5,6 @@
             <ul id="slide-out" class="sidenav sidenav-fixed">
                 <li>
                     <div class="user-view ">
-                        <a href="#user"><img class="circle" src="800px-Amazing_Office.jpg"></a>
                         <a href="#name"><span class="black-text name">{{ auth()->user()->name }}</span></a>
                         <a href="#email"><span class="black-text email">{{ auth()->user()->email }}</span></a>
                     </div>
