@@ -15,7 +15,23 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        return Income::where('user_id', auth()->user()->id)->get();
+        return Income::where('user_id', auth()->user()->id)->get()->toJson();
+    }
+
+    public function getIncomes(Request $request){
+        if($request->start_date && $request->final_date ){
+            $start_date = Carbon::parse($request->start_date);
+            $final_date = Carbon::parse($request->final_date);
+
+            if($final_date->greaterThan($start_date) || $final_date->isSameDay($start_date)){
+                $incomes = Income::where('user_id', auth()->user()->id)->whereBetween('date_operation', [$start_date, $final_date])->get();
+            } else{
+                $incomes = Income::where('user_id', auth()->user()->id)->latest()->get();
+            }
+        } else{
+            $incomes = Income::where('user_id', auth()->user()->id)->latest()->get();
+        }
+        return $incomes->toJson();
     }
 
     /**
