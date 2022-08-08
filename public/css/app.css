@@ -32,6 +32,16 @@
     margin-top: 100px;
 }
 
+.controlButtonsTable{
+    display: flex;
+    justify-content: space-between;
+}
+
+.filterDates{
+    display: flex;
+    align-items: center;
+}
+
 .container {
     padding: 10px;
     border: 1px solid #aaa9a9;
@@ -43,15 +53,6 @@
     align-items: center;
     flex-direction: row-reverse;
 }
-#drop-area {
-    /* border: 2px dashed rgb(149, 148, 148); */
-    /* border-radius: 10px; */
-    /* width: 480px; */
-    /* font-family: sans-serif; */
-  }
-  #drop-area.highlight {
-    /* border-color: purple; */
-  }
 
 
 @media only screen and (min-width: 992px)  {
