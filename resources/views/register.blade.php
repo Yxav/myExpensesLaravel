@@ -74,7 +74,7 @@
 
                   },
                   success: function(result){
-                    window.location.href = "/"
+                    window.location.href = "/home"
 
                 },
                 error: function(error){

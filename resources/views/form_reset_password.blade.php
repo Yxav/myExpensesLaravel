@@ -54,7 +54,7 @@
                      token: token
                   },
                   success: function(result){
-                    location.href = "/"
+                    location.href = "/home"
 
                 },
                 error: function(error){

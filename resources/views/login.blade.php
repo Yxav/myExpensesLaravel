@@ -49,7 +49,7 @@
                      password: jQuery('#password').val(),
                   },
                   success: function(result){
-                    window.location.href = "/"
+                    window.location.href = "/home"
                 },
                 error: function(error){
                     M.toast({html: 'Falha no login, verifique suas credenciais!', classes: 'red'});

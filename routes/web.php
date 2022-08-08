@@ -7,9 +7,6 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\GoalsController;
 
 
-
-
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,7 +35,7 @@ Route::post('/reset-password-processed', [AuthController::class, 'changePassword
 
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', [DashboardController::class, 'viewPageDash'])->name("dashboard");
+    Route::get('/home', [DashboardController::class, 'viewPageDash'])->name("dashboard");
     Route::get('/dashboard', [DashboardController::class, 'index'])->name("dashboard.json");
 
     Route::get('incomes', [IncomeController::class, 'viewPageIncomes'])->name("incomes");
