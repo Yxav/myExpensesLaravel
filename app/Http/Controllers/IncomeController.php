@@ -13,11 +13,6 @@ class IncomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return Income::where('user_id', auth()->user()->id)->get()->toJson();
-    }
-
     public function getIncomes(Request $request){
         if($request->start_date && $request->final_date ){
             $start_date = Carbon::parse($request->start_date);
@@ -41,10 +36,7 @@ class IncomeController extends Controller
      */
     public function viewPageIncomes()
     {
-        $incomes = $this->index();
-        $total = $this->calculateTotalIncomes();
-
-        return view('incomes', compact('incomes', 'total'));
+        return view('incomes');
     }
 
      /**
