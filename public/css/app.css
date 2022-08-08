@@ -42,6 +42,10 @@
     align-items: center;
 }
 
+.buttonLogin{
+    margin-bottom: 40px;
+}
+
 .container {
     padding: 10px;
     border: 1px solid #aaa9a9;

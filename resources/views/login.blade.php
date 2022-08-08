@@ -10,9 +10,7 @@
                   <div class="input-field inline">
                     <input id="email" name="email" type="email" class="validate">
                     <label for="email">Email</label>
-                    @if ($errors->has('email'))
                         <span class="helper-text" data-error="wrong" data-success="right">{{ $errors->first('email') }}</span>
-                    @endif
                   </div>
                 </div>
               </div>
@@ -21,12 +19,10 @@
                   <div class="input-field inline">
                     <input id="password" name="password" type="password" class="validate">
                     <label for="password">Senha</label>
-                    @if ($errors->has('password'))
                         <span class="helper-text" data-error="wrong" data-success="right">{{ $errors->first('password') }}</span>
-                    @endif
                   </div>
                 </div>
-                <div class="col-md-6 offset-md-4">
+                <div class="col-md-6 offset-md-4 buttonLogin" >
                     <button type="submit" id="loginButton" class="btn btn-primary">
                         Login
                     </button>
