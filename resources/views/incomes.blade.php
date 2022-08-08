@@ -33,9 +33,8 @@
             <a data-target="modalCreate" id="newButton" class="waves-effect waves-light blue btn modal-trigger"><i class="material-icons left">add</i>Adicionar novo</a>
         </div>
         <ul class="col s10 m6 l12">
-        <table id="dataTable" class="display">
-
-        </table>
+            <table id="dataTable" class="display">
+            </table>
         </ul>
     </div>
 
@@ -175,9 +174,6 @@
 
                     }
                 });
-
-
-
         }
 
         $(document).on("click", "#filterButton", function(e){
