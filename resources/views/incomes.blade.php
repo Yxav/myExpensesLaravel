@@ -257,10 +257,6 @@
             $("#invoicePicture").attr("src", "{{ Storage::url('incomes/') }}" + filePath);
         });
 
-        $('.modal-trigger').click(function(e){
-            console.log( table.row( this ).data() );
-        });
-
         $('.datepicker').datepicker({
             format: 'yyyy-mm-dd'
         });
