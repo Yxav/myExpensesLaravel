@@ -14,9 +14,20 @@ class ExpenseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return Expense::where('user_id', auth()->user()->id)->get();
+    public function getIncomes(Request $request){
+        if($request->start_date && $request->final_date ){
+            $start_date = Carbon::parse($request->start_date);
+            $final_date = Carbon::parse($request->final_date);
+
+            if($final_date->greaterThan($start_date) || $final_date->isSameDay($start_date)){
+                $expenses = Expense::where('user_id', auth()->user()->id)->whereBetween('date_operation', [$start_date, $final_date])->get();
+            } else{
+                $expenses = Expense::where('user_id', auth()->user()->id)->latest()->get();
+            }
+        } else{
+            $expenses = Expense::where('user_id', auth()->user()->id)->latest()->get();
+        }
+        return $expenses->toJson();
     }
 
     /**
@@ -31,7 +42,6 @@ class ExpenseController extends Controller
                     ->sum('amount');
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -39,9 +49,7 @@ class ExpenseController extends Controller
      */
     public function viewPageExpenses()
     {
-        $expenses = $this->index();
-        $total = $this->calculateTotalExpenses();
-        return view('expenses', compact('expenses', 'total'));
+        return view('expenses');
     }
 
     /**
@@ -112,6 +120,15 @@ class ExpenseController extends Controller
             $expense->short_name = is_null($request->short_name) ? $expense->short_name : $request->short_name;
             $expense->amount = is_null($request->amount) ? $expense->amount : $request->amount;
             $expense->description = is_null($request->description) ? $expense->description : $request->description;
+            if ($request->hasFile('file')) {
+
+                $request->validate([
+                    'image' => 'mimes:jpeg,bmp,png'
+                ]);
+
+                $request->file->store('expenses', 'public');
+                $expense->file_path = $request->file->hashName();
+            }
             $expense->save();
 
             return response()->json([

@@ -10,34 +10,33 @@
                 <div class="card grey lighten-4">
                 <div class="card-content black-text">
                     <span class="card-title center-align actual_balance_font_bold">Total Despesas (Mês corrente)</span>
-                    <p class="red-text center-align actual_balance_font">R$ {{ number_format($total, 2, ',', '.')  }}</p>
+                    <p id="totalExpenses" class="red-text center-align actual_balance_font"></p>
                 </div>
                 </div>
             </div>
             </div>
-            <div class="right-align">
-                <a id="newButton" data-target="modalCreate" class="waves-effect waves-light blue btn modal-trigger"><i class="material-icons left">add</i>Adicionar novo</a>
+            <div class="controlButtonsTable">
+            <div class="filterDates">
+                <div class="input-field col s6">
+                    <input value="" id="start_date" type="text" class="datepicker">
+                    <label for="start_date">Data Inicial</label>
+                </div>
+                <div class="input-field col s6">
+                    <input value="" id="final_date" type="text" class="datepicker">
+                    <label for="final_date">Data Final</label>
+                </div>
+                <a id="filterButton" class="waves-effect waves-light "><i class="material-icons left">search</i></a>
+                <a id="resetFilterButton" class="waves-effect waves-light "><i class="material-icons left">refresh</i></a>
+
+
             </div>
-            <ul class="collection">
-                @foreach ($expenses as $expense)
-                    <li class="collection-item avatar">
-                        <a href=""><i class="material-icons red circle">money_off</i></a>
-                        <span class="title">{{ $expense->short_name }}</span>
-                        <p>
-                        <span class="red-text"> R$ {{ number_format($expense->amount, 2, ',', '.')  }}</span> <br>
-                            {{ \Carbon\Carbon::parse($expense->date_operation)->format('d/m/Y')}}
 
-                        </p>
-                        @if($expense->file_path)
-                            <img id="invoice{{ $expense->id }}" style="display: none;" src="{{ Storage::url('expenses/' .$expense->file_path) }}" alt="" title=""></a>
-                        @endif
-
-                        <a href="javascript:void(0)" data-id="{{ $expense->id }}" class="secondary-content viewIcon"><i class="material-icons">visibility</i></a>
-                        <a href="javascript:void(0)" data-id="{{ $expense->id }}" data-target="modalCreate" class="secondary-content editIcon modal-trigger"><i class="material-icons">edit</i></a>
-                        <a href="javascript:void(0)" data-id= "{{ $expense->id }}" class="secondary-content delete_icon red-text"><i class="material-icons">delete</i></a>
-                    </li>
-                @endforeach
-            </ul>
+            <a data-target="modalCreate" id="newButton" class="waves-effect waves-light blue btn modal-trigger"><i class="material-icons left">add</i>Adicionar novo</a>
+        </div>
+        <ul class="col s10 m6 l12">
+            <table id="dataTable" class="display">
+            </table>
+        </ul>
 
         <div id="modalCreate" class="modal">
             <div class="modal-content">
@@ -92,9 +91,20 @@
             </div>
         </div>
     </div>
+    <div id="modalView" class="modal">
+        <div class="modal-content">
+            <img id="invoicePicture" src="" alt="">
+        </div>
+        <div class="modal-footer">
+            <a href="javascript:void(0)" class="modal-close waves-effect red darken-1 btn">Fechar</a>
+            <a href="javascript:void(0)" id="addButton" class="waves-effect blue darken-1 btn">Salvar</a>
+        </div>
+    </div>
 
 
 <script>
+    fetchData();
+    var storagePath = "{!! storage_path() !!}";
     let expenseTab = document.getElementById("expenses")
     expenseTab.classList.add("active")
 
@@ -109,74 +119,166 @@
         });
     });
 
+    function dataTableGenerate(result){
+        table = $('#dataTable').DataTable({
+            data: result,
+            paging: true,
+            bDestroy: true,
+            columns: [
+                {data: 'id'},
+                {data: 'short_name'},
+                {
+                    data: 'date_operation',
+                    render: function(data, type, row, meta) {
+                        data = new Date(row.date_operation);
+                        return data.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+                    }
 
-    $("#newButton").click(function(){
-        $("#addExpense").trigger("reset")
-        $("#id").trigger('reset')
-    })
+                },
+                {data: 'amount'},
+                {
+                data: null,
+                className: "dt-center editor-edit",
+                defaultContent: '<i class="fa fa-pencil"/>',
+                orderable: false
+            },
+            {
+                data: null,
+                defaultContent: '<a href="javascript:void(0)" data-target="modalCreate" class="secondary-content editIcon modal-trigger"><i class="material-icons">edit</i></a>',
+                orderable: false
+            },
+            {
+                data: null,
+                defaultContent: '<a href="javascript:void(0)" class="secondary-content delete_icon red-text"><i class="material-icons">delete</i></a>',
+                orderable: false
+            },
+            {
+                data: null,
+                defaultContent: '<a href="javascript:void(0)" class="secondary-content viewIcon"><i class="material-icons">visibility</i></a>',
+                orderable: false
+            }
+            ],
+            dom: "<'row'<'col s12 m6 l12'l><'col-sm-12 col-md-4'B><'col s12 m6 l12'f>><'row'<'col s12 l12'tr>><'row'<'col s12 m12 l12'i><'col s12 m12 l12 center'p>>",
+            buttons: [
+                        'copy', 'csv', 'excel', 'pdf', 'print'
+                    ],
+        });
+    }
 
-    $(".editIcon").click(function(e){
-        let id = $(this).attr("data-id");
-        let url = '{{ route("expenses.show", ":id") }}';
-        url = url.replace(':id', id);
-
+    function fetchData(start_date, final_date){
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
         $.ajax({
-            url: url,
+            url: "{{ url('json/expenses') }}",
             method: 'get',
+            dataType: 'json',
+            data:{
+                start_date: start_date,
+                final_date: final_date,
+            },
             success: function(result){
-                let data = JSON.parse(result)[0]
-                $("#short_name").val(data.short_name);
-                $("#date_operation").val(data.date_operation);
-                $("#amount").val(data.amount);
-                $("#description").val(data.description);
-                $("#id").val(data.id);
+                dataTableGenerate(result)
             }
         });
-      })
 
+        $.ajax({
+            url: "{{ url('total/expenses') }}",
+            method: 'get',
+            dataType: 'json',
+            success: function(result){
+                $("p#totalExpenses").text("R$ " + result.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"))
+            }
+        });
+    }
 
-      let clicked = false;
-      $(".viewIcon").click(function(e){
-        let id = "invoice" + $(this).attr("data-id");
-        let invoice = document.getElementById(id);
+    $(document).on("click", "#filterButton", function(e){
+            e.preventDefault();
+            let start_date= $("#start_date").val();
+            let final_date= $("#final_date").val();
+            if(start_date == "" || final_date == ""){
+                M.toast({html: 'Preencha os dois campos de data, por favor!', classes: 'red'});
+                return
+            }
+            $('#dataTable').DataTable().destroy();
+            fetchData(start_date, final_date);
+        })
+        $(document).on("click", "#resetFilterButton", function(e){
+            e.preventDefault();
+            let start_date= $("#start_date").val('');
+            let final_date= $("#final_date").val('');
+            $('#dataTable').DataTable().destroy();
+            fetchData();
+        })
 
-        if(!invoice){
-            M.toast({html: 'Esta despesa não possui comprovante!', classes: 'red'});
-            return
-        }
-        if(clicked){
-            invoice.style.display = "none "
-            clicked = false
-        } else {
-            invoice.style.display = "flex"
-            clicked = true;
+        $('#dataTable').on('click', ".editIcon", function() {
+            var row = $(this).parents('tr')[0];
+            let id = table.row(row).data().id;
+            let url = '{{ route("expenses.show", ":id") }}';
+            url = url.replace(':id', id);
 
-        }
-      })
-
-    $(".delete_icon").click(function(e){
-        let id = $(this).attr("data-id");
-        let url = '{{ route("expenses.destroy", ":id") }}';
-        url = url.replace(':id', id);
-
-        $.ajaxSetup({
+            $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
+            });
+            $.ajax({
+                url: url,
+                method: 'get',
+                success: function(result){
+                    let data = JSON.parse(result)[0]
+                    $("#short_name").val(data.short_name);
+                    $("#date_operation").val(data.date_operation);
+                    $("#amount").val(data.amount);
+                    $("#description").val(data.description);
+                    $("#id").val(data.id);
+                }
+            });
         });
-        $.ajax({
-            url: url,
-            method: 'get',
-            success: function(result){
-                alert("Deletado com sucesso")
-                location.reload()
+
+        $('#dataTable').on('click', ".delete_icon", function() {
+            var row = $(this).parents('tr')[0];
+            let id = table.row(row).data().id;
+            let url = '{{ route("expenses.destroy", ":id") }}';
+            url = url.replace(':id', id);
+
+            $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+            });
+            $.ajax({
+                url: url,
+                method: 'get',
+                success: function(result){
+                    M.toast({html: 'Despesa exclúida com sucesso!', classes: 'green'});
+                    fetchData();
+                }
+            });
+        });
+
+        $('#dataTable').on('click', ".viewIcon", function() {
+            var row = $(this).parents('tr')[0];
+            let filePath = table.row(row).data().file_path;
+
+            if(!filePath){
+                M.toast({html: 'Esta receita não possui comprovante!', classes: 'red'});
+                return
             }
+
+            let modal = document.getElementById("modalView");
+            let instance = M.Modal.getInstance(modal);
+            instance.open();
+
+            $("#invoicePicture").attr("src", "{{ Storage::url('expenses/') }}" + filePath);
         });
+
+
+    $("#newButton").click(function(){
+        $("#addExpense").trigger("reset")
+        $("#id").trigger('reset')
     })
 
     $(document).ready(function () {
@@ -239,7 +341,7 @@
                 contentType: false,
                 processData: false,
                 success: function(result){
-                    location.reload()
+                    fetchData();
                 }});}
         else {
             $.ajax({
@@ -249,8 +351,11 @@
                 contentType: false,
                 processData: false,
                 success: function(result){
-                    location.reload()
+                    fetchData();
                 }});}
+        let modal = document.getElementById("modalCreate");
+        let instance = M.Modal.getInstance(modal);
+        instance.close();
     });
     </script>
 @endsection
