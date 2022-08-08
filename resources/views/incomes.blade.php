@@ -101,49 +101,7 @@
         });
 
         function dataTableGenerate(result){
-            table = $('#dataTable').DataTable({
-                        data: result,
-                        paging: true,
-                        bDestroy: true,
-                        columns: [
-                            {data: 'id'},
-                            {data: 'short_name'},
-                            {
-                                data: 'date_operation',
-                                render: function(data, type, row, meta) {
-                                    data = new Date(row.date_operation);
-                                    return data.toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-                                }
-
-                            },
-                            {data: 'amount'},
-                            {
-                            data: null,
-                            className: "dt-center editor-edit",
-                            defaultContent: '<i class="fa fa-pencil"/>',
-                            orderable: false
-                        },
-                        {
-                            data: null,
-                            defaultContent: '<a href="javascript:void(0)" data-target="modalCreate" class="secondary-content editIcon modal-trigger"><i class="material-icons">edit</i></a>',
-                            orderable: false
-                        },
-                        {
-                            data: null,
-                            defaultContent: '<a href="javascript:void(0)" class="secondary-content delete_icon red-text"><i class="material-icons">delete</i></a>',
-                            orderable: false
-                        },
-                        {
-                            data: null,
-                            defaultContent: '<a href="javascript:void(0)" class="secondary-content viewIcon"><i class="material-icons">visibility</i></a>',
-                            orderable: false
-                        }
-                        ],
-                        dom: "<'row'<'col s12 m6 l12'l><'col-sm-12 col-md-4'B><'col s12 m6 l12'f>><'row'<'col s12 l12'tr>><'row'<'col s12 m12 l12'i><'col s12 m12 l12 center'p>>",
-                        buttons: [
-                                    'copy', 'csv', 'excel', 'pdf', 'print'
-                                ],
-                    });
+            table = dataTable("dataTable",result)
         }
 
         function fetchData(start_date, final_date){
