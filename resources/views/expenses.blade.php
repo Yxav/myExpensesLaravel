@@ -6,7 +6,7 @@
 @section('content')
 
 <div class="row  main_cards">
-            <div class="col s10 m6 l12 ">
+            <div class="col s12 m12 l12 ">
                 <div class="card grey lighten-4">
                 <div class="card-content black-text">
                     <span class="card-title center-align actual_balance_font_bold">Total Despesas (Mês corrente)</span>
@@ -31,7 +31,7 @@
 
             <a data-target="modalCreate" id="newButton" class="waves-effect waves-light blue btn modal-trigger"><i class="material-icons left">add</i>Adicionar novo</a>
         </div>
-        <ul class="col s10 m6 l12">
+        <ul class="col s12 m12 l12">
             <table id="dataTable" class="display">
             </table>
         </ul>

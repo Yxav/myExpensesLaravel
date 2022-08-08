@@ -43,8 +43,7 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="{{ URL::asset('js/dataTable.js') }}"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-flash-1.6.1/b-html5-1.6.1/b-print-1.6.1/r-2.2.3/datatables.min.js"></script>
-        <div class="col s12 m8 l9">
-            <!-- Note that "m8 l9" was added -->
+        <div class="col s12 m12 l9">
             @yield('content')
         </div>
     </div>

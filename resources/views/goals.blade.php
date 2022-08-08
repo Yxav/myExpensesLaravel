@@ -7,7 +7,7 @@
 @section('content')
     <div class="row main_cards">
         @foreach($goals as $goal)
-            <div class="col s10 m6 l6 ">
+            <div class="col s10 m12 l6 ">
                     <div class="card grey lighten-4">
                         <div class="card-content black-text ">
                             <span class="card-title center-align">{{ $goal->short_name }}</span>

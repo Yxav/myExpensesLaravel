@@ -6,7 +6,7 @@
 @section('content')
 
     <div class="row  main_cards">
-        <div class="col s10 m6 l6 ">
+        <div class="col s10 m12 l6 ">
             <div class="card grey lighten-4">
                 <div class="card-content black-text">
                     <span class="card-title center-align actual_balance_font_bold">Total Receitas</span>
@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        <div class="col s10 m6 l6 ">
+        <div class="col s10 m12 l6 ">
             <div class="card grey lighten-4">
                 <div class="card-content black-text">
                     <span class="card-title center-align actual_balance_font_bold">Total despesas</span>
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div class="col s10 m6 l12 ">
+        <div class="col s10 m12 l12 ">
             <div class="card grey lighten-4">
                 <div class="card-content black-text">
                     <span class="card-title center-align actual_balance_font_bold">Balanço atual</span>
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="col s10 m6 l12 ">
+        <div class="col s10 m12 l12 ">
             <div class="card grey lighten-4">
                 <div class="card-content black-text">
                     <span class="card-title center-align">Gráfico balanço</span>

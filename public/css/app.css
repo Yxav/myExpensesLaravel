@@ -64,6 +64,7 @@
 }
 
 
+
 @media only screen and (min-width: 992px)  {
     .sidenav{
         width: 300px;
@@ -73,6 +74,15 @@
         padding: 0;
     }
 }
+
+@media only screen and (max-width: 800px)  {
+    .controlButtonsTable {
+        display: flex;
+        flex-direction: column;
+
+    }
+}
+
 
 
 @media only screen and (min-width: 1400px)  {
