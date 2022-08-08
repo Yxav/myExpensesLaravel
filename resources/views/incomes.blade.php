@@ -159,10 +159,11 @@
                     dataType: 'json',
                     data:{
                         start_date: start_date,
-                        start_date: final_date,
+                        final_date: final_date,
                     },
                     success: function(result){
                         dataTableGenerate(result)
+                        console.log(result)
                     }
                 });
         }
@@ -345,9 +346,12 @@
                     processData: false,
                     success: function(result){
                         fetchData();
-                }});
-            }
-         });
+                    }});
+                }
+                let modal = document.getElementById("modalCreate");
+                let instance = M.Modal.getInstance(modal);
+                instance.close();
+            });
 
         $("#newButton").click(function(){
             $("#addIncome").trigger("reset")
