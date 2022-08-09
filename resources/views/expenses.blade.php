@@ -272,46 +272,60 @@
 
     $('#addButton').click(function(e){
         e.preventDefault();
-        let expenseId;
-        var fd = new FormData();
-        var files = $('#invoice')[0].files[0];
 
-        fd.append('file',files);
-        fd.append('short_name', $('#short_name').val());
-        fd.append('date_operation', $('#date_operation').val());
-        fd.append('amount', $('#amount').val());
-        fd.append('description', $('#description').val());
+        if(validateForm()){
+            let expenseId;
+            var fd = new FormData();
+            var files = $('#invoice')[0].files[0];
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+            fd.append('file',files);
+            fd.append('short_name', $('#short_name').val());
+            fd.append('date_operation', $('#date_operation').val());
+            fd.append('amount', $('#amount').val());
+            fd.append('description', $('#description').val());
 
-        if($("#id").val()){
-            fd.append('id', $('#id').val());
-            $.ajax({
-                url: "{{ url('/expenses/update') }}",
-                method: 'post',
-                data: fd,
-                contentType: false,
-                processData: false,
-                success: function(result){
-                    fetchData();
-                }});}
-        else {
-            $.ajax({
-                url: "{{ url('/expenses') }}",
-                method: 'post',
-                data: fd,
-                contentType: false,
-                processData: false,
-                success: function(result){
-                    fetchData();
-                }});}
-        let modal = document.getElementById("modalCreate");
-        let instance = M.Modal.getInstance(modal);
-        instance.close();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            if($("#id").val()){
+                fd.append('id', $('#id').val());
+                $.ajax({
+                    url: "{{ url('/expenses/update') }}",
+                    method: 'post',
+                    data: fd,
+                    contentType: false,
+                    processData: false,
+                    success: function(result){
+                        fetchData();
+                    }});}
+                    else {
+                        $.ajax({
+                            url: "{{ url('/expenses') }}",
+                            method: 'post',
+                            data: fd,
+                    contentType: false,
+                    processData: false,
+                    success: function(result){
+                        fetchData();
+                    }});}
+            let modal = document.getElementById("modalCreate");
+            let instance = M.Modal.getInstance(modal);
+            instance.close();
+        }
     });
+
+
+    function validateForm(){
+            if(!validateNumberInput("amount")){
+                $("#amount").addClass("invalid");
+                M.toast({html: 'O campo valor deve ser numérico!', classes: 'red'});
+
+                return false
+            }
+            return true
+        }
     </script>
 @endsection

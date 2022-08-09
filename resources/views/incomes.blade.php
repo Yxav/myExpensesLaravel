@@ -252,73 +252,70 @@
             });
         })
 
-        let clicked = false;
-        $(".viewIcon").click(function(e){
-            let id = "invoice" + $(this).attr("data-id");
-            let invoice = document.getElementById(id);
-
-            if(!invoice){
-                M.toast({html: 'Esta despesa não possui comprovante!', classes: 'red'});
-                return
-            }
-            if(clicked){
-                invoice.style.display = "none "
-                clicked = false
-            } else {
-                invoice.style.display = "flex"
-                clicked = true;
-
-            }
-        })
-
         $('#addButton').click(function(e){
             e.preventDefault();
-            var fd = new FormData();
-            var files = $('#invoice')[0].files[0];
 
-            fd.append('file',files);
-            fd.append('short_name', $('#short_name').val());
-            fd.append('date_operation', $('#date_operation').val());
-            fd.append('amount', $('#amount').val());
-            fd.append('description', $('#description').val());
+            if(validateForm()){
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
 
-            if($("#id").val()){
-                fd.append('id', $('#id').val());
-                $.ajax({
-                    url: "{{ url('/incomes/update') }}",
-                    method: 'post',
-                    data: fd,
-                    contentType: false,
-                    processData: false,
-                    success: function(result){
-                        fetchData();
-                    }});}
-            else {
-                $.ajax({
-                    url: "{{ url('/incomes') }}",
-                    method: 'post',
-                    data: fd,
-                    contentType: false,
-                    processData: false,
-                    success: function(result){
-                        fetchData();
-                    }});
-                }
-                let modal = document.getElementById("modalCreate");
-                let instance = M.Modal.getInstance(modal);
-                instance.close();
-            });
+                var fd = new FormData();
+                var files = $('#invoice')[0].files[0];
+
+                fd.append('file',files);
+                fd.append('short_name', $('#short_name').val());
+                fd.append('date_operation', $('#date_operation').val());
+                fd.append('amount', $('#amount').val());
+                fd.append('description', $('#description').val());
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                if($("#id").val()){
+                    fd.append('id', $('#id').val());
+                    $.ajax({
+                        url: "{{ url('/incomes/update') }}",
+                        method: 'post',
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+                        success: function(result){
+                            fetchData();
+                        }});}
+                        else {
+                            $.ajax({
+                                url: "{{ url('/incomes') }}",
+                                method: 'post',
+                                data: fd,
+                                contentType: false,
+                                processData: false,
+                                success: function(result){
+                                    fetchData();
+                                }});
+                            }
+                            let modal = document.getElementById("modalCreate");
+                            let instance = M.Modal.getInstance(modal);
+                            instance.close();
+            }
+        });
 
         $("#newButton").click(function(){
             $("#addIncome").trigger("reset")
             $("#id").trigger('reset')
         })
+
+        function validateForm(){
+            if(!validateNumberInput("amount")){
+                $("#amount").addClass("invalid");
+                M.toast({html: 'O campo valor deve ser numérico!', classes: 'red'});
+
+                return false
+            }
+            return true
+        }
+
 
     </script>
 @endsection
