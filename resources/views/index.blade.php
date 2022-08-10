@@ -170,15 +170,13 @@
 
         setTimeout(()=>{
             total = incomes - expenses;
-
-
             $("p#totalBalance").text("R$ " + total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"))
             if(total > 0){
                 $("p#totalBalance").addClass('green-text')
             } else {
                 $("p#totalBalance").addClass('red-text')
             }
-        }, 10)
+        }, 1000)
 
 
 
