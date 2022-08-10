@@ -178,7 +178,7 @@
             } else {
                 $("p#totalBalance").addClass('red-text')
             }
-        }, 100)
+        }, 10)
 
 
 
