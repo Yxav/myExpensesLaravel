@@ -1,6 +1,6 @@
 function validateNumberInput(element){
     let inputElementValue = document.getElementById(element).value;
-    let regexPattern = /^\d+$/;
+    let regexPattern = /^\d*\.?\d+$/;
     return regexPattern.test(inputElementValue);
 }
 
