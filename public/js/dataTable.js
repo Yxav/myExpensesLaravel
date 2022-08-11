@@ -1,3 +1,4 @@
+
 function dataTable(idTable, result) {
    return $("#" + idTable).DataTable({
         data: result,
@@ -292,3 +293,7 @@ function dataTable(idTable, result) {
                 ],
     });
 }
+
+
+
+
