@@ -28,7 +28,6 @@ function fetchData(start_date, final_date){
         method: 'get',
         dataType: 'json',
         success: function(result){
-            console.log(idDivResult)
             $(idDivResult).text("R$ " + result.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"))
         }
     });
@@ -49,26 +48,80 @@ $(document).on("click", "#filterButton", function(e){
 
 $(document).on("click", "#resetFilterButton", function(e){
     e.preventDefault();
-    let start_date= $("#start_date").val('');
-    let final_date= $("#final_date").val('');
+    $("#start_date").val('');
+    $("#final_date").val('');
     $('#dataTable').DataTable().destroy();
 
     fetchData();
 })
 
-
-function deleteRecord(obj, table, url ){
-    var row = $(obj).parents('tr')[0];
+$(document).on("click", "#dataTable .delete_icon", function(e){
+    var row = $(this).parents('tr')[0];
     let id = table.row(row).data().id;
-    // let url = '{{ route("expenses.destroy", ":id") }}';
+    let url = urlDeleteRegister
+
     url = url.replace(':id', id);
 
     $.ajax({
         url: url,
         method: 'get',
         success: function(result){
-            M.toast({html: 'Despesa exclúida com sucesso!', classes: 'green'});
+            M.toast({html: typeRegister +' exclúida com sucesso!', classes: 'green'});
             fetchData();
         }
     });
-}
+
+});
+
+
+
+$(document).on("click", "#addButton", function(e){
+    e.preventDefault();
+
+    if(validateForm()){
+        var fd = new FormData();
+        var files = $('#invoice')[0].files[0];
+
+        fd.append('file',files);
+        fd.append('short_name', $('#short_name').val());
+        fd.append('date_operation', $('#date_operation').val());
+        fd.append('amount', $('#amount').val());
+        fd.append('description', $('#description').val());
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        if($("#id").val()){
+            fd.append('id', $('#id').val());
+            $.ajax({
+                url: urlUpdateRegister,
+                method: 'post',
+                data: fd,
+                contentType: false,
+                processData: false,
+                success: function(result){
+                    M.toast({html: typeRegister +' atualizada com sucesso!', classes: 'green'});
+                    fetchData();
+                }});}
+                else {
+                    $.ajax({
+                        url: urlRegister,
+                        method: 'post',
+                        data: fd,
+                contentType: false,
+                processData: false,
+                success: function(result){
+                    M.toast({html: typeRegister +' criada com sucesso!', classes: 'green'});
+                    fetchData();
+                }});}
+        let modal = document.getElementById("modalCreate");
+        let instance = M.Modal.getInstance(modal);
+        instance.close();
+    }
+});
+
+
+

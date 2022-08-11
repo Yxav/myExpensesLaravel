@@ -43,9 +43,9 @@
             integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
             <script type="text/javascript" src="//cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-flash-1.6.1/b-html5-1.6.1/b-print-1.6.1/r-2.2.3/datatables.min.js"></script>
+            <script src="{{ URL::asset('js/validations.js') }}"></script>
             <script src="{{ URL::asset('js/app.js') }}"></script>
             <script src="{{ URL::asset('js/dataTable.js') }}"></script>
-            <script src="{{ URL::asset('js/validations.js') }}"></script>
             <script src="{{ URL::asset('js/modals.js') }}"></script>
             <script src="{{ URL::asset('js/services.js') }}"></script>
 

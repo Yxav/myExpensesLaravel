@@ -106,87 +106,15 @@
 
     let urlGetRegisters = "{{ url('json/expenses') }}";
     let urlGetTotalValue = "{{ url('total/expenses') }}";
-    let idDivResult = "p#totalExpenses"
-
-    fetchData()
-
-
-
-
-
-    $('#dataTable').on('click', ".delete_icon", function() {
-        deleteRecord(this, table, '{{ route("expenses.destroy", ":id") }}' )
-    });
+    let urlRegister = "{{ url('/expenses') }}";
+    let urlUpdateRegister = "{{ url('/expenses/update') }}";
+    let urlDeleteRegister = "{{ route('expenses.destroy', ':id') }}";
+    let urlShowRegister = "{{ route('expenses.show', ':id') }}";
+    let urlGetInvoice = "{{ Storage::url('expenses/') }}";
+    let idDivResult = "p#totalExpenses";
+    let typeRegister = "Despesa";
 
 
-
-        $('#dataTable').on('click', ".editIcon", function() {
-            openModalEdit(this, table, '{{ route("expenses.show", ":id") }}')
-        });
-
-        $('#dataTable').on('click', ".viewIcon", function() {
-            openModalInvoice(this, table, 'despesa', "{{ Storage::url('expenses/') }}")
-        });
-
-
-
-
-    $('#addButton').click(function(e){
-        e.preventDefault();
-
-        if(validateForm()){
-            let expenseId;
-            var fd = new FormData();
-            var files = $('#invoice')[0].files[0];
-
-            fd.append('file',files);
-            fd.append('short_name', $('#short_name').val());
-            fd.append('date_operation', $('#date_operation').val());
-            fd.append('amount', $('#amount').val());
-            fd.append('description', $('#description').val());
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            if($("#id").val()){
-                fd.append('id', $('#id').val());
-                $.ajax({
-                    url: "{{ url('/expenses/update') }}",
-                    method: 'post',
-                    data: fd,
-                    contentType: false,
-                    processData: false,
-                    success: function(result){
-                        fetchData();
-                    }});}
-                    else {
-                        $.ajax({
-                            url: "{{ url('/expenses') }}",
-                            method: 'post',
-                            data: fd,
-                    contentType: false,
-                    processData: false,
-                    success: function(result){
-                        fetchData();
-                    }});}
-            let modal = document.getElementById("modalCreate");
-            let instance = M.Modal.getInstance(modal);
-            instance.close();
-        }
-    });
-
-
-    function validateForm(){
-            if(!validateNumberInput("amount")){
-                $("#amount").addClass("invalid");
-                M.toast({html: 'O campo valor deve ser numérico!', classes: 'red'});
-
-                return false
-            }
-            return true
-        }
+    fetchData();
     </script>
 @endsection
