@@ -40,7 +40,7 @@
             <div class="modal-content">
                 <h4 id="nameModal">Insira os dados da despesa</h4>
                 <div class="row">
-                    <form id="addExpense">
+                    <form id="addRegister">
                         <meta name="csrf-token" content="<?php echo csrf_token(); ?>">
                         <div class="input-field col s6">
                         <input type="hidden" name="id" id="id">
