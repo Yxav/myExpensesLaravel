@@ -101,174 +101,35 @@
 
 
 <script>
-    fetchData();
-    var storagePath = "{!! storage_path() !!}";
     let expenseTab = document.getElementById("expenses")
     expenseTab.classList.add("active")
 
-    document.addEventListener('DOMContentLoaded', function() {
-        let elems = document.querySelectorAll('.modal');
-        let instances = M.Modal.init(elems, {});
-      });
+    let urlGetRegisters = "{{ url('json/expenses') }}";
+    let urlGetTotalValue = "{{ url('total/expenses') }}";
+    let idDivResult = "p#totalExpenses"
 
-    $(document).ready(function(){
-        $('.datepicker').datepicker({
-            format: 'yyyy-mm-dd'
-        });
+    fetchData()
+
+
+
+
+
+    $('#dataTable').on('click', ".delete_icon", function() {
+        deleteRecord(this, table, '{{ route("expenses.destroy", ":id") }}' )
     });
 
-    function dataTableGenerate(result){
-        table = dataTable("dataTable",result)
-    }
 
-    function fetchData(start_date, final_date){
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: "{{ url('json/expenses') }}",
-            method: 'get',
-            dataType: 'json',
-            data:{
-                start_date: start_date,
-                final_date: final_date,
-            },
-            success: function(result){
-                dataTableGenerate(result)
-            }
-        });
-
-        $.ajax({
-            url: "{{ url('total/expenses') }}",
-            method: 'get',
-            dataType: 'json',
-            success: function(result){
-                $("p#totalExpenses").text("R$ " + result.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"))
-            }
-        });
-    }
-
-    $(document).on("click", "#filterButton", function(e){
-            e.preventDefault();
-            let start_date= $("#start_date").val();
-            let final_date= $("#final_date").val();
-            if(start_date == "" || final_date == ""){
-                M.toast({html: 'Preencha os dois campos de data, por favor!', classes: 'red'});
-                return
-            }
-            $('#dataTable').DataTable().destroy();
-            fetchData(start_date, final_date);
-        })
-        $(document).on("click", "#resetFilterButton", function(e){
-            e.preventDefault();
-            let start_date= $("#start_date").val('');
-            let final_date= $("#final_date").val('');
-            $('#dataTable').DataTable().destroy();
-            fetchData();
-        })
 
         $('#dataTable').on('click', ".editIcon", function() {
-            var row = $(this).parents('tr')[0];
-            let id = table.row(row).data().id;
-            let url = '{{ route("expenses.show", ":id") }}';
-            url = url.replace(':id', id);
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: url,
-                method: 'get',
-                success: function(result){
-                    let data = JSON.parse(result)[0]
-                    $("#short_name").val(data.short_name);
-                    $("#date_operation").val(data.date_operation);
-                    $("#amount").val(data.amount);
-                    $("#description").val(data.description);
-                    $("#id").val(data.id);
-                }
-            });
-        });
-
-        $('#dataTable').on('click', ".delete_icon", function() {
-            var row = $(this).parents('tr')[0];
-            let id = table.row(row).data().id;
-            let url = '{{ route("expenses.destroy", ":id") }}';
-            url = url.replace(':id', id);
-
-            $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-            });
-            $.ajax({
-                url: url,
-                method: 'get',
-                success: function(result){
-                    M.toast({html: 'Despesa exclúida com sucesso!', classes: 'green'});
-                    fetchData();
-                }
-            });
+            openModalEdit(this, table, '{{ route("expenses.show", ":id") }}')
         });
 
         $('#dataTable').on('click', ".viewIcon", function() {
-            var row = $(this).parents('tr')[0];
-            let filePath = table.row(row).data().file_path;
-
-            if(!filePath){
-                M.toast({html: 'Esta despesa não possui comprovante!', classes: 'red'});
-                return
-            }
-
-            let modal = document.getElementById("modalView");
-            let instance = M.Modal.getInstance(modal);
-            instance.open();
-
-            $("#invoicePicture").attr("src", "{{ Storage::url('expenses/') }}" + filePath);
+            openModalInvoice(this, table, 'despesa', "{{ Storage::url('expenses/') }}")
         });
 
 
-    $("#newButton").click(function(){
-        $("#addExpense").trigger("reset")
-        $("#id").trigger('reset')
-    })
 
-    $(document).ready(function () {
-        $("html").on("dragover", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        });
-
-        $("html").on("drop", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        });
-
-        $('#drag_and_drop').on('dragover', function () {
-            $(this).addClass('drag_over');
-            return false;
-        });
-
-        $('#drag_and_drop').on('dragleave', function () {
-            $(this).removeClass('drag_over');
-            return false;
-        });
-
-        $('#drag_and_drop').on('drop', function (e) {
-            e.preventDefault();
-            let fileInput = document.querySelector('input[type="file"]');
-            $(this).removeClass('drag_over');
-                var formData = new FormData();
-                var files = e.originalEvent.dataTransfer.files;
-                const dT = new DataTransfer();
-                dT.items.add(files[0]);
-                fileInput.files = dT.files;
-            });
-        })
 
     $('#addButton').click(function(e){
         e.preventDefault();
