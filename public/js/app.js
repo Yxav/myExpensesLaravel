@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     let elems = document.querySelectorAll('.modal');
-    let instances = M.Modal.init(elems, {});
+    M.Modal.init(elems, {});
   });
 
 $(document).ready(function(){
@@ -35,8 +35,7 @@ $(document).ready(function () {
         e.preventDefault();
         let fileInput = document.querySelector('input[type="file"]');
         $(this).removeClass('drag_over');
-            var formData = new FormData();
-            var files = e.originalEvent.dataTransfer.files;
+            let files = e.originalEvent.dataTransfer.files;
             const dT = new DataTransfer();
             dT.items.add(files[0]);
             fileInput.files = dT.files;

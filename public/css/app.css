@@ -16,8 +16,21 @@
     right: 60px !important;
 }
 
+.nav-wrapper {
+    background: linear-gradient(to right, rgb(5, 0, 144) , rgb(70, 175, 255));
+  }
+
+.action_buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
 .viewIcon{
     right: 105px !important;
+}
+
+#newButton:hover {
+    background-color: #2658c8 !important;
 }
 
 .actual_balance_font{
@@ -61,6 +74,11 @@
     justify-content: center;
     align-items: center;
     flex-direction: row-reverse;
+}
+
+
+.modal-content > label {
+    position: relative !important;
 }
 
 

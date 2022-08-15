@@ -1,5 +1,5 @@
-$(document).on("click", "#dataTable .viewIcon", function(e){
-    var row = $(this).parents('tr')[0];
+$(document).on("click", "#dataTable .viewIcon", function(){
+    let row = $(this).parents('tr')[0];
     let filePath = table.row(row).data().file_path;
 
     if(!filePath){
@@ -14,8 +14,8 @@ $(document).on("click", "#dataTable .viewIcon", function(e){
 });
 
 
-$(document).on("click", "#dataTable .editIcon", function(e){
-    var row = $(this).parents('tr')[0];
+$(document).on("click", "#dataTable .editIcon", function(){
+    let row = $(this).parents('tr')[0];
     let id = table.row(row).data().id;
     let url = urlShowRegister;
     url = url.replace(':id', id);

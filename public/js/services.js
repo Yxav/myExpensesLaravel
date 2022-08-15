@@ -55,8 +55,8 @@ $(document).on("click", "#resetFilterButton", function(e){
     fetchData();
 })
 
-$(document).on("click", "#dataTable .delete_icon", function(e){
-    var row = $(this).parents('tr')[0];
+$(document).on("click", "#dataTable .delete_icon", function(){
+    let row = $(this).parents('tr')[0];
     let id = table.row(row).data().id;
     let url = urlDeleteRegister
 
@@ -65,7 +65,7 @@ $(document).on("click", "#dataTable .delete_icon", function(e){
     $.ajax({
         url: url,
         method: 'get',
-        success: function(result){
+        success: function(){
             M.toast({html: typeRegister +' exclúida com sucesso!', classes: 'green'});
             fetchData();
         }
@@ -75,12 +75,12 @@ $(document).on("click", "#dataTable .delete_icon", function(e){
 
 
 
-$(document).on("click", "#addButton", function(e){
+$(document).on("click", "#addButton", function(){
     e.preventDefault();
 
     if(validateForm()){
-        var fd = new FormData();
-        var files = $('#invoice')[0].files[0];
+        let fd = new FormData();
+        let files = $('#invoice')[0].files[0];
 
         fd.append('file',files);
         fd.append('short_name', $('#short_name').val());
@@ -102,7 +102,7 @@ $(document).on("click", "#addButton", function(e){
                 data: fd,
                 contentType: false,
                 processData: false,
-                success: function(result){
+                success: function(){
                     M.toast({html: typeRegister +' atualizada com sucesso!', classes: 'green'});
                     fetchData();
                 }});}
@@ -113,7 +113,7 @@ $(document).on("click", "#addButton", function(e){
                         data: fd,
                 contentType: false,
                 processData: false,
-                success: function(result){
+                success: function(){
                     M.toast({html: typeRegister +' criada com sucesso!', classes: 'green'});
                     fetchData();
                 }});}
