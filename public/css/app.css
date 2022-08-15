@@ -81,8 +81,6 @@
     position: relative !important;
 }
 
-
-
 @media only screen and (min-width: 992px)  {
     .sidenav{
         width: 300px;
