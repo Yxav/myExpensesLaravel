@@ -44,19 +44,19 @@
                         <meta name="csrf-token" content="<?php echo csrf_token(); ?>">
                         <div class="input-field col s6">
                         <input type="hidden" name="id" id="id">
-                        <input value="" id="short_name" type="text" class="validate">
+                        <input placeholder=" " value="" id="short_name" type="text" class="validate">
                         <label for="short_name">Nome</label>
                         </div>
                         <div class="input-field col s6">
-                            <input value="" id="date_operation" type="text" class="datepicker">
+                            <input placeholder=" " value="" id="date_operation" type="text" class="datepicker">
                             <label for="date_operation">Data</label>
                         </div>
                         <div class="input-field col s12">
-                            <input value="" id="amount" type="text" class="validate">
+                            <input placeholder=" " value="" id="amount" type="text" class="validate">
                             <label for="amount">Valor</label>
                         </div>
                         <div class="input-field col s12">
-                            <input value="" id="description" type="text" class="validate">
+                            <input placeholder=" " value="" id="description" type="text" class="validate">
                             <label for="description">Descrição</label>
                         </div>
                         <div class="input-field col s12">
