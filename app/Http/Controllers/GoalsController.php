@@ -96,7 +96,11 @@ class GoalsController extends Controller
             $goal = Goal::find($id);
             $goal->short_name = is_null($request->short_name) ? $goal->short_name : $request->short_name;
             $goal->amount = is_null($request->amount) ? $goal->amount : $request->amount;
-            $goal->actual_balance = is_null($request->actual_balance) ? $goal->actual_balance : $request->actual_balance;
+            if($request->deposit){
+                $goal->actual_balance = ($request->deposit + $goal->actual_balance);
+            } else {
+                $goal->actual_balance = is_null($request->actual_balance) ? $goal->actual_balance : $request->actual_balance;
+            }
             $goal->date_operation = is_null($request->date_operation) ? $goal->date_operation : $request->date_operation;
             $goal->save();
 
