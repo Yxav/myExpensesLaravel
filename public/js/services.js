@@ -75,7 +75,7 @@ $(document).on("click", "#dataTable .delete_icon", function(){
 
 
 
-$(document).on("click", "#addButton", function(){
+$(document).on("click", "#addButton", function(e){
     e.preventDefault();
 
     if(validateForm()){
