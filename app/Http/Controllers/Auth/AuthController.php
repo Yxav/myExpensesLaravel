@@ -62,7 +62,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             return response(200);
         }
-        return redirect("login")->withSuccess('Oppes! You have entered invalid credentials');
+        return response()->json("Incorrect credentials", 403);
     }
 
     /**
