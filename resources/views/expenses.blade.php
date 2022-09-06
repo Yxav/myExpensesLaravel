@@ -77,17 +77,7 @@
             </div>
         </div>
 
-        <div id="modalInvoice" class="modal">
-            <div class="modal-content">
-                <div class="row">
 
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="javascript:void(0)" class="modal-close waves-effect red darken-1 btn">Fechar</a>
-                <a href="javascript:void(0)" id="addButton" class="waves-effect blue darken-1 btn">Salvar</a>
-            </div>
-        </div>
     </div>
     <div id="modalView" class="modal">
         <div class="modal-content">
@@ -95,7 +85,6 @@
         </div>
         <div class="modal-footer">
             <a href="javascript:void(0)" class="modal-close waves-effect red darken-1 btn">Fechar</a>
-            <a href="javascript:void(0)" id="addButton" class="waves-effect blue darken-1 btn">Salvar</a>
         </div>
     </div>
 
