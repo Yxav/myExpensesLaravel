@@ -8,6 +8,10 @@
     width: 250px;
 }
 
+.sidenav-trigger > i {
+    font-size: 45px;
+}
+
 .main_cards {
     padding: 20px;
 }
@@ -83,6 +87,10 @@
 
 .dataTable {
     width: 100% !important;
+}
+
+#registerButton{
+    margin-bottom: 30px;
 }
 
 @media only screen and (min-width: 992px)  {
