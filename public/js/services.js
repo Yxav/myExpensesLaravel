@@ -66,7 +66,7 @@ $(document).on("click", "#dataTable .delete_icon", function(){
         url: url,
         method: 'get',
         success: function(){
-            M.toast({html: typeRegister +' exclúida com sucesso!', classes: 'green'});
+            M.toast({html: typeRegister +' excluída com sucesso!', classes: 'green'});
             fetchData();
         }
     });
