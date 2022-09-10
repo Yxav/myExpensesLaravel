@@ -8,7 +8,7 @@
               <div class="row center-align ">
                 <div class="col s12">
                   <div class="input-field inline">
-                    <input id="email" name="email" type="email" class="validate">
+                    <input id="email" name="email" type="email">
                     <label for="email">Email</label>
                         <span class="helper-text" data-error="wrong" data-success="right">{{ $errors->first('email') }}</span>
                   </div>
@@ -17,7 +17,7 @@
               <div class="row center-align ">
                 <div class="col s12">
                   <div class="input-field inline">
-                    <input id="password" name="password" type="password" class="validate">
+                    <input id="password" name="password" type="password">
                     <label for="password">Senha</label>
                         <span class="helper-text" data-error="wrong" data-success="right">{{ $errors->first('password') }}</span>
                   </div>
