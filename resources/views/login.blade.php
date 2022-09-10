@@ -27,7 +27,15 @@
                         Login
                     </button>
                 </div>
-            <a href="{{ route('resetPassword') }}">Esqueceu sua senha?</a>
+                <div class="links">
+                  <p>  
+                    <a href="{{ route('resetPassword') }}">Esqueceu sua senha?</a>
+                  </p>
+                  <p class="resetLink">
+                    Não tem conta? <a href="{{ route('register') }}"> Registre-se</a>
+                  </p>
+                </div>
+
             </div>
             </form>
           </div>

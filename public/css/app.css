@@ -93,6 +93,15 @@
     margin-bottom: 30px;
 }
 
+
+
+@media only screen and (max-width: 684px)  {
+    .resetLink {
+        display: inline;
+    }
+}
+
+
 @media only screen and (min-width: 992px)  {
     .sidenav{
         width: 300px;
@@ -100,6 +109,9 @@
     .main_cards {
         margin-top: 15px;
         padding: 0;
+    }
+    .resetLink{
+        display: none;
     }
 }
 
