@@ -81,6 +81,10 @@
     position: relative !important;
 }
 
+.dataTable {
+    width: 100% !important;
+}
+
 @media only screen and (min-width: 992px)  {
     .sidenav{
         width: 300px;
@@ -95,8 +99,8 @@
     .controlButtonsTable {
         display: flex;
         flex-direction: column;
-
     }
+
 }
 
 
