@@ -7,19 +7,13 @@
 @section('content')
     <div class="row main_cards">
         <div class="main_cards" id="cards">
-
         </div>
-
-
-
         <div class="fixed-action-btn">
             <a data-target="modalCreate" class="btn-floating btn-large blue modal-trigger" id="newButton">
                 <i class="large material-icons">add</i>
             </a>
 
         </div>
-
-
     </div>
       <!-- Modal Structure -->
     <div id="modalDetail" class="modal">
@@ -219,16 +213,16 @@
         function displayCards(data){
             data.forEach(goal => {
                 $("#cards").append(
-                    "<div class='col s10 m12 l6'>" +
+                    "<div class='col s12 m12 l6'>" +
                         "<div class='card grey lighten-4'>" +
                             "<div class='card-content black-text'> " +
                                 "<span class='card-title center-align'>" + goal.short_name + "</span> " +
                                 "<canvas id='myChart" + goal.id + "' width='200' height='100'></canvas>" +
                                 "<div class='action_buttons'>" +
-                                    "<a data-id='" + goal.id + "' class='waves-effect delete_icon_goal red btn'><i class='material-icons right'>delete</i>Deletar</a>" +
-                                    "<a data-target='modalCreate' data-id='" + goal.id + "' class='waves-effect editIcon orange btn modal-trigger'><i class='material-icons right'>edit</i>Editar</a>" +
-                                    "<a data-target='modalDetail' data-id='" + goal.id + "' class='waves-effect detailIcon blue darken-1 btn modal-trigger'><i class='material-icons right'>visibility</i>Detalhes</a>"+
-                                    "<a data-target='modalDeposit' data-id='" + goal.id + "' class='waves-effect depositIcon green darken-1 btn modal-trigger'><i class='material-icons right'>money</i>Depositar</a>"+
+                                    "<a data-id='" + goal.id + "' class='waves-effect delete_icon_goal red btn btn_icon'><i class='material-icons icon_goal'>delete</i><span id='textButton'>Deletar</span></a>" +
+                                    "<a data-target='modalCreate' data-id='" + goal.id + "' class='waves-effect editIcon orange btn modal-trigger btn_icon'><i class='material-icons icon_goal'>edit</i><span id='textButton'>Editar</span></a>" +
+                                    "<a data-target='modalDetail' data-id='" + goal.id + "' class='waves-effect detailIcon blue darken-1 btn modal-trigger btn_icon'><i class='material-icons icon_goal'>visibility</i><span id='textButton'>Detalhes</span></a>"+
+                                    "<a data-target='modalDeposit' data-id='" + goal.id + "' class='waves-effect depositIcon green darken-1 btn modal-trigger btn_icon'><i class='material-icons icon_goal'>money</i><span id='textButton'>Depositar</span></a>"+
                                 "</div>" +
                             "</div>" +
                         "</div>" +
