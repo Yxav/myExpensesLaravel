@@ -213,7 +213,7 @@
         function displayCards(data){
             data.forEach(goal => {
                 $("#cards").append(
-                    "<div class='col s12 m12 l6'>" +
+                    "<div class='col s12 m12 l10'>" +
                         "<div class='card grey lighten-4'>" +
                             "<div class='card-content black-text'> " +
                                 "<span class='card-title center-align'>" + goal.short_name + "</span> " +
