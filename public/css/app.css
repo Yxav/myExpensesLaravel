@@ -5,7 +5,7 @@
 
 .sidenav{
     top: auto;
-    width: 250px;
+    width: 23%;
 }
 
 .sidenav-trigger > i {
@@ -95,6 +95,7 @@
 
 .btn, .btn-large, .btn-small, .btn-floating, .btn-large, .btn-small, .btn-flat {
     font-size: 0.8rem !important;
+    padding: 0 5px;
   }
 
 
@@ -121,9 +122,6 @@
 
 
 @media only screen and (min-width: 992px)  {
-    .sidenav{
-        width: 300px;
-    }
     .main_cards {
         margin-top: 15px;
         padding: 0;
@@ -131,6 +129,11 @@
     .resetLink{
         display: none;
     }
+
+}
+
+@media only screen and (min-width: 992px)  {
+
 }
 
 @media only screen and (max-width: 800px)  {
